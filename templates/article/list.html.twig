@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <section class="plantes-list">
+        {% for article in articles %}
+            <article>
+                <h3>{{ article.nom }}</h3>
+                <a href="{{ path('article_details', {'id': article.id}) }}"
+                   title="voir details {{ article.nom }}">
+                    <img src="{{ asset('img/'~article.categorie.nom~'/' ~ article.images) }}" alt="{{ article.nom }}">
+                </a>
+                <a href="{{ path('panier_add', {'id': article.id}) }}" class="ajout btn btn-outline-success" title="ajouter {{ article.nom }}"><i class="bi bi-cart-plus"></i> Ajouter</a>
+            </article>
+        {% endfor %}
+    </section>
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+

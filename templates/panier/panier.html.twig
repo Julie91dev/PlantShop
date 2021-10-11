@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Panier! | {{ parent() }}{% endblock %}
+
+{% block body %}
+<section class="bg-light p-3">
+    <h2 class="panier-titre">Votre panier</h2>
+    <h5><a href="{{ path('home') }}" title="Continuer mes achats" >Continuer mes achats</a></h5>
+</section>
+    {% if items| length > 0 %}
+        <table class="table text-center my-auto">
+            <thead class="table-success">
+                <tr>
+                    <th class=""></th>
+                    <th class="">Produit</th>
+                    <th class="">Prix</th>
+                    <th class="">Quantité</th>
+                    <th class="">Total</th>
+                    <th class=""></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr class="">
+                    <td ><img class="img-panier" src="img/{{ item.produit.categorie.nom }}/{{ item.produit.images }}" alt="{{ item.produit.nom }}" title="{{ item.produit.nom }}"></td>
+                    <td class="align-middle">{{ item.produit.nom }}</td>
+                    <td class="align-middle">{{ item.produit.prix }}€</td>
+                    <td class="align-middle">
+
+                        {{ item.quantite }}
+                        <a href="{{ path('panier_remove', {'id': item.produit.id}) }}" class="align-start btn btn-outline-success " title="enlever une quantite">
+                            <i class="bi bi-dash-circle "></i>
+
+                        </a>
+                        <a href="{{ path('panier_add', {'id': item.produit.id}) }}" class="btn btn-outline-success " title="ajouter une quantite">
+                            <i class="bi bi-plus-circle"></i>
+                        </a>
+                    </td>
+                    <td class="align-middle">{{ item.produit.prix * item.quantite }}€</td>
+                    <td class="align-middle">
+                        <a href="{{ path('panier_delete', {'id': item.produit.id}) }}" class="btn btn-outline-danger" title="supprimer produit">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td class="total text-right " colspan="4">Total :</td>
+                    <td class="total-prix">{{ total }}€</td>
+                    <td class="">
+                        <a href="{{ path('panier_delete_all') }}" class="btn btn-outline-danger " title="supprimer panier">
+                            <i class="bi bi-trash"></i>
+                        </a></td>
+                </tr>
+            </tfoot>
+        </table>
+        <div class="valider">
+            <a href="#" title="valider et passer commande" class=" btn btn-outline-success btn-lg">Valider et passer commande</a>
+        </div>
+    {% else %}
+        <p>Votre panier est vide</p>
+    {% endif %}
+{% endblock %}

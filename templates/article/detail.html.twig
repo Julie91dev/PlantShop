@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="plante-details">
+        <div>
+            <img src="{{ asset('img/'~article.categorie.nom~'/' ~ article.images ) }}" alt="{{ article.nom }}">
+        </div>
+        <div class="plante-details-infos">
+            <h2>{{ article.nom }}</h2>
+            <br>
+            <div class="detail-des-cat">Description: <br>{{ article.description }}</div>
+            <div class="detail-des-cat">Categorie: {{ article.sousCategorie.nom }}</div>
+            <br><br><br>
+            <div class="details-prix">{{ article.prix }}€</div>
+            <br><br>
+            <div class="btn-detail">
+                <a href="{{ path('panier_add', {'id': article.id}) }}" class="ajout-detail btn btn-lg btn-outline-success " title="ajouter {{ article.nom }}">
+                    <i class="bi bi-cart-plus"></i>
+                    Ajouter
+                </a>
+                <a href="{{ path('article', {'id': article.categorie.id}) }}" class="ajout-detail btn btn-lg btn-outline-info " title="retour">
+                    <i class="bi bi-backspace"></i>
+                    Retour
+                </a>
+            </div>
+
+        </div>
+        <div>
+            <img src="{{ asset('img/'~article.categorie.nom~'/'~ article.images ) }}" alt="{{ article.nom }}">
+        </div>
+    </div>
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+

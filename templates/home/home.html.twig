@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil! | {{ parent() }}{% endblock %}
+
+{% block body %}
+   <section class="plantes-list">
+        <article>
+            <h3>Plantes</h3>
+            <a href="{{ path('article', {'id': plante.id}) }}" title="Voir la liste des plantes">
+                <img src="{{ asset('img/home/Pante.jpg') }}"  alt="Voir les plantes">
+            </a>
+            <p>
+                Plantes vertes, plantes à massif, graines, bulbes...
+            </p>
+        </article>
+        <article>
+            <h3>Décorations</h3>
+            <a href="{{ path('article', {'id': decoration.id})}}" title="Voir les décorations">
+                <img src="{{ asset('img/home/Decoration.jpg') }}"  alt="Voir la décoration">
+            </a>
+            <p>
+                Pots, cache-pots, objets décoratifs...
+            </p>
+        </article>
+        <article>
+            <h3>Outillages</h3>
+            <a href="{{ path('article', {'id': outil.id}) }}" title="Voir l'outillage'">
+                <img src="{{ asset('img/home/Outillage.jpg') }}"  alt="Voir les outillages">
+            </a>
+            <p>
+                Arrosoirs, sécateurs, outils de jardin...
+            </p>
+        </article>
+   </section>
+{% endblock %}

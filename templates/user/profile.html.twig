@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil! | {{ parent() }}{% endblock %}
+
+{% block body %}
+
+<h2 class="titre-profil">Votre compte</h2>
+    <div class="card-deck">
+        <div class="card border-primary">
+            <a href="#">
+                <img class="card-img-top border-primary" src="{{ asset('img/user/cadie.jpg') }}" alt="Card image cap">
+                <div class="card-body border-primary">
+                    <h5 class="card-title">Vos commandes</h5>
+                    <p class="card-text">Historique de vos commandes</p>
+                </div>
+            </a>
+        </div>
+        <div class="card border-success">
+            <a href="#">
+                <img class="card-img-top" src="{{ asset('img/user/securite.jpg') }}" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">Connexion & sécurité</h5>
+                    <p class="card-text">Modifier votre profil</p>
+                </div>
+            </a>
+        </div>
+        <div class="card border-info">
+            <a href="#">
+                <img class="card-img-top" src="{{ asset('img/user/adresse.jpg') }}" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">Adresses</h5>
+                    <p class="card-text">Vos adresses de livraisons et facturations</p>
+                </div>
+            </a>
+        </div>
+        <div class="card border-secondary">
+            <a href="#">
+                <img class="card-img-top" src="{{ asset('img/user/paiement.jpg') }}" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">Vos paiements</h5>
+                    <p class="card-text">Gestion de vos moyens de paiements</p>
+                </div>
+            </a>
+        </div>
+    </div>
+{% endblock %}

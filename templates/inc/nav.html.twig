@@ -1,9 +1,18 @@
 <nav>
     <ul>
-        <li><a href="{{ path('home') }}" title="Accueil">Home</a></li>
+        <li><a href="{{ path('home') }}" title="Accueil">Accueil</a></li>
         <li><a href="{{ path('article', {'id': plante.id}) }}" title="Liste des plantes">Plantes</a></li>
         <li><a href="{{ path('article', {'id': decoration.id}) }}" title="Liste des decorations">Décorations</a></li>
         <li><a href="{{ path('article', {'id': outil.id}) }}" title="Liste des outils">Outillage</a></li>
         <li><a href="{{ path('panier') }}" title="panier">Panier</a></li>
+
+        {% if app.user %}
+            <li><a href="{{ path('app_logout') }}" title="Déconnexion">Déconnexion</a></li>
+            <li>Bonjour {{ app.user.prenom }}</li>
+           {#  <li><a href="{{ path('profile') }}" title="Déconnexion">Profil</a></li>#}
+        {% else %}
+            <li><a href="{{ path('app_login') }}" title="Connexion">Connexion</a></li>
+            <li><a href="{{ path('app_register') }}" title="Inscription">Inscription</a></li>
+        {% endif %}
     </ul>
 </nav>

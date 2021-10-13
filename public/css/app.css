@@ -347,7 +347,51 @@ form button{
     text-decoration: none;
 }
 
+/************* ADRESSE FORMULAIRE **************/
 
+.adresse-form{
+    /*border: red solid 3px;*/
+    margin-top: 15px;
+}
+
+.adresse-titre{
+    /*border: blue solid 3px;*/
+}
+.adresse-form-inputs{
+    /*border: darkviolet solid 3px;*/
+}
+.adresse-titre h2{
+    font-family: 'Merienda', cursive;
+    font-size: 28pt;
+    border-bottom: #AAAAAA solid 2px;
+    text-align: center;
+}
+
+.adresse{
+    /*border: green solid 3px;*/
+    display: flex;
+    flex-direction: column;
+    width: 600px;
+    margin-right: auto;
+    margin-left: auto;
+}
+.adresse input[type='text']{
+    border: 1px black solid;
+    border-radius: inherit;
+    background-color: inherit;
+    padding: inherit;
+
+}
+.adresse-label{
+    font-weight: bold;
+}
+.flash{
+    padding: 20px;
+    font-weight: bold;
+    font-size: 1.4rem;
+    margin: 1rem 0;
+    border-radius: 5px;
+}
 .flash-success {background-color: lawngreen}
 
 @media screen and (min-width: 700px) {

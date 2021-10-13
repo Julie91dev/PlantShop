@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\AdresseRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=AdresseRepository::class)
@@ -18,26 +19,36 @@ class Adresse
     private $id;
 
     /**
+     * @Assert\NotBlank(message="Ajouter un numéro de téléphone")
+     * @Assert\Type(type="integer", message="{{ value }} n'est pas un numéro de téléphone")
+     * @Assert\Positive(message="{{ value }} n'est pas un numéro de téléphone. Une valeur positive est attendu")
      * @ORM\Column(type="integer")
      */
     private $telephone;
 
     /**
+     * @Assert\Positive(message="{{ value }} n'est pas un numéro de rue. Une valeur positive est attendu")
      * @ORM\Column(type="integer", nullable=true)
      */
     private $numero;
 
     /**
+     * @Assert\NotBlank(message="Ajouter une rue")
      * @ORM\Column(type="string", length=255)
      */
     private $rue;
 
     /**
+     * @Assert\Type(type="integer", message="{{ value }} n'est pas un code postal")
+     * @Assert\Positive(message="{{ value }} n'est pas un code postal. Une valeur positive est attendu")
      * @ORM\Column(type="integer")
      */
     private $cp;
 
     /**
+     * @Assert\NotBlank(message="La ville est nécessaire")
+     * @Assert\Type(type="string", message="{{ value }} n'est pas une ville")
+     * @Assert\Regex(pattern="/\d/", match=false, message="La ville ne peut pas contenir de nombre")
      * @ORM\Column(type="string", length=255)
      */
     private $ville;
@@ -46,6 +57,28 @@ class Adresse
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="adresses")
      */
     private $client;
+
+    /**
+     * @Assert\Type(type="string", message="{{ value }} n'est pas un nom")
+     * @Assert\NotBlank(message="Le nom est nécessaire")
+     * @Assert\Length( min= 2, max= 35,
+     *                 minMessage="Votre nom doit être supérieur à {{ limit }} caractères",
+     *                 maxMessage="Votre nom doit être inférieur à {{ limit }} caractères")
+     * @Assert\Regex(pattern="/\d/", match=false, message="Votre nom ne peut pas contenir de nombre")
+     * @ORM\Column(type="string", length=255)
+     */
+    private $nom;
+
+    /**
+     * @Assert\Type(type="string", message="{{ value }} n'est pas un prénom")
+     * @Assert\NotBlank(message="Le prénom est nécessaire")
+     * @Assert\Length( min= 2, max= 35,
+     *                 minMessage="Votre prénom doit être supérieur à {{ limit }} caractères",
+     *                 maxMessage="Votre prénom doit être inférieur à {{ limit }} caractères")
+     * @Assert\Regex(pattern="/\d/", match=false, message="Votre prénom ne peut pas contenir de nombre")
+     * @ORM\Column(type="string", length=255)
+     */
+    private $prenom;
 
     public function getId(): ?int
     {
@@ -120,6 +153,30 @@ class Adresse
     public function setClient(?User $client): self
     {
         $this->client = $client;
+
+        return $this;
+    }
+
+    public function getNom(): ?string
+    {
+        return $this->nom;
+    }
+
+    public function setNom(string $nom): self
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    public function getPrenom(): ?string
+    {
+        return $this->prenom;
+    }
+
+    public function setPrenom(string $prenom): self
+    {
+        $this->prenom = $prenom;
 
         return $this;
     }

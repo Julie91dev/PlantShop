@@ -1,7 +1,46 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    {{ form(adresseForm) }}
+<div class="adresse-form">
+    <div class="adresse-titre">
+        <h2>Ajouter une nouvelle adresse</h2>
+    </div>
+
+    <div class="adresse-form-inputs">
+        {{ form_start(adresseForm) }}
+            <div class="adresse">
+                {{ form_errors(adresseForm.nom)}}
+                {{ form_label(adresseForm.nom) }}
+                {{ form_widget(adresseForm.nom) }}
+
+                {{ form_errors(adresseForm.prenom)}}
+                {{ form_label(adresseForm.prenom) }}
+                {{ form_widget(adresseForm.prenom) }}
+
+                {{ form_errors(adresseForm.telephone)}}
+                {{ form_label(adresseForm.telephone) }}
+                {{ form_widget(adresseForm.telephone) }}
+
+                {{ form_errors(adresseForm.numero)}}
+                {{ form_label(adresseForm.numero) }}
+                {{ form_widget(adresseForm.numero) }}
+
+                {{ form_errors(adresseForm.rue)}}
+                {{ form_label(adresseForm.rue) }}
+                {{ form_widget(adresseForm.rue) }}
+
+                {{ form_errors(adresseForm.cp)}}
+                {{ form_label(adresseForm.cp) }}
+                {{ form_widget(adresseForm.cp) }}
+
+                {{ form_errors(adresseForm.ville)}}
+                {{ form_label(adresseForm.ville) }}
+                {{ form_widget(adresseForm.ville) }}
+
+                <button type="submit" class="btn btn-primary">Ajouter une adresse</button>
+            </div>
+        {{ form_end(adresseForm) }}
+    </div>
 {% endblock %}
 
 {% block title %}

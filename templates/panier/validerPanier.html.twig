@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Valider! | {{ parent() }}{% endblock %}
+
+{% block body %}
+    <section class="bg-light p-3">
+        <h2 class="panier-titre">Validation de votre panier</h2>
+        <h5><a href="{{ path('panier_livraison') }}" title="Continuer mes achats" >Retour</a></h5>
+    </section>
+
+    <table class="table text-center my-auto">
+        <thead class="table-success">
+        <tr>
+            <th class=""></th>
+            <th class="">Référence</th>
+            <th class="">Prix</th>
+            <th class="">Quantité</th>
+            <th class="">Total</th>
+            <th class=""></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for produit in commande.commande.produit %}
+            <tr class="">
+                <td></td>
+{#                <td ><img class="img-panier" src="img/{{ produit.produit.categorie.nom }}/{{ produit.produit.images }}" alt="{{ produit.produit.nom }}" title="{{ produit.produit.nom }}"></td>#}
+                <td class="align-middle">{{ produit.reference }}</td>
+                <td class="align-middle">{{ produit.prix }}€</td>
+                <td class="align-middle"> {{ produit.quantite }}</td>
+                <td class="align-middle">{{ produit.prix * produit.quantite }}€</td>
+                <td class="align-middle"></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td class="total text-right " colspan="4">Total :</td>
+                <td class="total-prix">{{ commande.commande.prix }}€</td>
+                <td class=""></td>
+            </tr>
+            <tr>
+                <td class="" colspan="" style="font-weight: bold">Adresse de facturation</td>
+                <td class="" style="font-weight: bold">Adresse de livraison</td>
+                <td class=""></td>
+            </tr>
+            <tr>
+                <td class="" colspan="">{{ commande.commande.facturation.prenom }} {{ commande.commande.facturation.nom }}<br>
+                                                            {{ commande.commande.facturation.numero }} {{ commande.commande.facturation.rue }}<br>
+                                                            {{ commande.commande.facturation.cp }} {{ commande.commande.facturation.ville }}<br>
+                                                            Numéro de téléphone: {{ commande.commande.facturation.telephone }}</td>
+                <td class="">{{ commande.commande.livraison.prenom }} {{ commande.commande.livraison.nom }}<br>
+                    {{ commande.commande.livraison.numero }} {{ commande.commande.livraison.rue }}<br>
+                    {{ commande.commande.livraison.cp }} {{ commande.commande.livraison.ville }}<br>
+                    Numéro de téléphone: {{ commande.commande.livraison.telephone }}</td>
+                <td class=""></td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <form action="{{ path('commande_validation', { 'id' : commande.id }) }}" method="POST">
+        <input name="token" type="hidden" value="{{ commande.commande.token }}" />
+        <input name="prix" type="hidden" value="{{ commande.commande.prix }}" />
+        <input name="date" type="hidden" value="{{ commande.date|date('dmyhms') }}" />
+        <button type="submit" class="btn btn-success pull-right">Payer</button>
+    </form>
+
+    <div class="valider">
+        <a href="{{ path('panier_livraison') }}" title="valider et passer commande" class=" btn btn-outline-success btn-lg">Retour</a>
+    </div>
+
+
+
+
+{% endblock %}

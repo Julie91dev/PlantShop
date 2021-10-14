@@ -1,0 +1,214 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Livraison! | {{ parent() }}{% endblock %}
+
+{% block body %}
+    <h2>Livraison</h2>
+    <form action="{{ path('panier_validation') }}" method="post">
+
+        <h4>Adresse de livraison</h4>
+        <label class="radio">
+        <input type="radio" name="livraison" id="livraison" checked data-livraison="{{ adresse.id }}" value="{{ adresse.id }}"><p id="livraisonP">{{ adresse.prenom }}
+                {{ adresse.nom }} {{ adresse.numero}} {{ adresse.rue }} {{ adresse.ville }} {{ adresse.cp }}</p>
+        </label>
+       {# <p> {{ adresse.numero}} {{ adresse.rue }}</p>
+        <p> {{ adresse.ville }} {{ adresse.cp }}</p>#}
+        <a id="myBtn">Choisir</a>
+
+        <h4>Adresse de facturation</h4>
+        <label class="radio">
+        <input type="radio" name="facturation" id="facturation" checked data-facturation="{{ adresse.id }}" value="{{ adresse.id }}"><p id="facturationP">{{ adresse.prenom }}
+        {{ adresse.nom }} {{ adresse.numero}} {{ adresse.rue }} {{ adresse.ville }} {{ adresse.cp }}</p>
+        </label>
+        {#<p> {{ adresse.numero}} {{ adresse.rue }}</p>
+        <p> {{ adresse.ville }} {{ adresse.cp }}</p>#}
+        <a id="myBtn1">Choisir</a>
+
+        <div class="valider">
+{#            <a href="#" id="valider" title="valider et passer commande" class=" btn btn-outline-success btn-lg">Valider</a>#}
+            <button class="btn btn-primary">Valider mes adresses</button>
+        </div>
+    </form>
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h4>Ma dernière adresse utilisé</h4>
+            <p> {{ derniereAdresse.prenom }} {{ derniereAdresse.nom }} </p>
+            <p> {{ derniereAdresse.numero}} {{ derniereAdresse.rue }}</p>
+            <p> {{ derniereAdresse.ville }} {{ derniereAdresse.cp }}</p>
+
+            <h4>Mes autres adresses</h4>
+            {% for adresse in adresses %}
+                <p> {{ adresse.id }} {{ adresse.prenom }} {{ adresse.nom }} {{ adresse.numero}} {{ adresse.rue }} {{ adresse.ville }} {{ adresse.cp }}
+                    <button class="myBtnChoix" data-adresseId="{{ adresse.id }}">Choisir</button></p>
+            {% endfor %}
+        </div>
+
+    </div>
+
+{% endblock %}
+{% block javascripts %}
+    <script>
+        /**@TODO: Revoir modal changement adresse*/
+
+        // Get the modal
+        var modal = document.getElementById("myModal");
+
+        // Get the button that opens the modal
+        var btn = document.getElementById("myBtn");
+        var btn1 = document.getElementById("myBtn1");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks on the button, open the modal
+        btn.onclick = function() {
+            modal.style.display = "block";
+
+            //Choix de l'utilisateur
+            $(".myBtnChoix").on("click", function() {
+                var idAdresse = $(this).attr("data-adresseId")
+                console.log(idAdresse)
+
+                var datas = {idAdresse: idAdresse};
+                $.ajax({
+                    url: '{{  path('adresse_id') }}',
+                    crossDomain: false,
+                    processData: false,
+                    contentType: false,
+                    data: JSON.stringify(datas),
+                    dataType: 'json',
+                    cache: false,
+                    type: 'POST',
+                    async: false
+                }).done(function (response) {
+                    console.log(response);
+                    $id = response["id"]
+                    console.log($id)
+                    $('#livraison').replaceWith("<input type=\"radio\" name=\"livraison\" id=\"livraison\" checked data-livraison=" + response["id"] + "\" value="+ response["id"] +"\">")
+                     $('#livraisonP').replaceWith("<p>" + response["prenom"] + response["nom"] + response["numero"] + response["rue"] + response["ville"] + response["cp"] + "</p>")
+
+
+                    modal.style.display = "none";
+
+                }).fail(function (resultat, statut, erreur) {
+                    console.log("fail")
+                    console.log(statut)
+                    console.log(erreur)
+                })
+            });
+        }
+        btn1.onclick = function(e) {
+            modal.style.display = "block";
+            //Choix de l'utilisateur
+            $(".myBtnChoix").on("click", function() {
+                e.preventDefault()
+                var idAdresse = $(this).attr("data-adresseId")
+                console.log(idAdresse)
+
+                var datas = {idAdresse: idAdresse};
+                $.ajax({
+                    url: '{{  path('adresse_id') }}',
+                    crossDomain: false,
+                    processData: false,
+                    contentType: false,
+                    data: JSON.stringify(datas),
+                    dataType: 'json',
+                    cache: false,
+                    type: 'POST',
+                    async: false
+                }).done(function (response) {
+                    console.log(response);
+                    $id = response["id"]
+                    console.log($id)
+                    $('#facturation').replaceWith("<input type=\"radio\" name=\"facturation\" id=\"facturation\" checked data-facturation=" + response["id"] + "\" value="+ response["id"] +"\">" +response["prenom"] +
+                        response["nom"] + response["numero"] + response["rue"] + response["ville"] + response["cp"] );
+                    $('#facturationP').remove()
+                    modal.style.display = "none";
+
+                }).fail(function (resultat, statut, erreur) {
+                    console.log("fail")
+                    console.log(statut)
+                    console.log(erreur)
+                })
+            });
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+           /* //Choix de l'utilisateur
+            $(".myBtnChoix").on("click", function() {
+                var idAdresse = $(this).attr("data-adresseId")
+                console.log(idAdresse)
+
+                var datas = {idAdresse: idAdresse};
+                $.ajax({
+                    url: '{{  path('adresse_id') }}',
+                    crossDomain: false,
+                    processData: false,
+                    contentType: false,
+                    data: JSON.stringify(datas),
+                    dataType: 'json',
+                    cache: false,
+                    type: 'POST',
+                    async: false
+                }).done(function (response) {
+                    console.log(response);
+                    $id = response["id"]
+                    console.log($id)
+                    $('#facturation').replaceWith(response["nom"], response["prenom"], response["numero"], response["rue"],
+                    response["cp"], response["ville"] )
+                    modal.style.display = "none";
+
+                }).fail(function (resultat, statut, erreur) {
+                    console.log("fail")
+                    console.log(statut)
+                    console.log(erreur)
+                })
+            });*/
+        /*$("#valider").on("click", function() {
+            var idAdresseLivraison = $(this).attr("data-livraison")
+            var idAdresseFacturation = $(this).attr("data-facturation")
+            console.log("id adresse Livraison = " + idAdresseLivraison)
+            console.log("id adresse facturation = " + idAdresseFacturation)
+
+            var datas = {idAdresseLivraison: idAdresseLivraison, idAdresseFacturation: idAdresseFacturation};
+            console.log("tableau datas = " + datas)
+
+            $.ajax({
+                url: '',
+                crossDomain: false,
+                processData: false,
+                contentType: false,
+                data: JSON.stringify(datas),
+                dataType: 'json',
+                cache: false,
+                type: 'POST',
+                async: false
+            }).done(function (response) {
+                console.log(response);
+
+            }).fail(function (resultat, statut, erreur) {
+                console.log("fail")
+                console.log(statut)
+                console.log(erreur)
+            })
+
+        })*/
+
+        </script>
+{% endblock %}
+

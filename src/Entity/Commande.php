@@ -28,7 +28,7 @@ class Commande
     private $date;
 
     /**
-     * @ORM\Column(type="string", length=25)
+     * @ORM\Column(type="integer")
      */
     private $reference;
 
@@ -36,6 +36,11 @@ class Commande
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="commandes")
      */
     private $client;
+
+    /**
+     * @ORM\Column(type="array")
+     */
+    private $commande = [];
 
     public function getId(): ?int
     {
@@ -86,6 +91,18 @@ class Commande
     public function setClient(?User $client): self
     {
         $this->client = $client;
+
+        return $this;
+    }
+
+    public function getCommande(): ?array
+    {
+        return $this->commande;
+    }
+
+    public function setCommande(array $commande): self
+    {
+        $this->commande = $commande;
 
         return $this;
     }

@@ -19,22 +19,22 @@ class AdresseRepository extends ServiceEntityRepository
         parent::__construct($registry, Adresse::class);
     }
 
-    // /**
-    //  * @return Adresse[] Returns an array of Adresse objects
-    //  */
-    /*
-    public function findByExampleField($value)
+     /**
+     * @return Adresse Retourne la dernière adresse enregistrée
+    */
+
+    public function findLastAdress($client)
     {
         return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
+            ->andWhere('a.client = :val')
+            ->setParameter('val', $client)
+            ->orderBy('a.dateCreation', 'DESC')
+            ->setMaxResults(1)
             ->getQuery()
-            ->getResult()
+            ->getOneOrNullResult()
         ;
     }
-    */
+
 
     /*
     public function findOneBySomeField($value): ?Adresse

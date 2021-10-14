@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\AdresseRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -15,6 +16,7 @@ class Adresse
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("personne:read")
      */
     private $id;
 
@@ -23,18 +25,21 @@ class Adresse
      * @Assert\Type(type="integer", message="{{ value }} n'est pas un numéro de téléphone")
      * @Assert\Positive(message="{{ value }} n'est pas un numéro de téléphone. Une valeur positive est attendu")
      * @ORM\Column(type="integer")
+     * @Groups("personne:read")
      */
     private $telephone;
 
     /**
      * @Assert\Positive(message="{{ value }} n'est pas un numéro de rue. Une valeur positive est attendu")
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups("personne:read")
      */
     private $numero;
 
     /**
      * @Assert\NotBlank(message="Ajouter une rue")
      * @ORM\Column(type="string", length=255)
+     * @Groups("personne:read")
      */
     private $rue;
 
@@ -42,6 +47,7 @@ class Adresse
      * @Assert\Type(type="integer", message="{{ value }} n'est pas un code postal")
      * @Assert\Positive(message="{{ value }} n'est pas un code postal. Une valeur positive est attendu")
      * @ORM\Column(type="integer")
+     * @Groups("personne:read")
      */
     private $cp;
 
@@ -50,6 +56,7 @@ class Adresse
      * @Assert\Type(type="string", message="{{ value }} n'est pas une ville")
      * @Assert\Regex(pattern="/\d/", match=false, message="La ville ne peut pas contenir de nombre")
      * @ORM\Column(type="string", length=255)
+     * @Groups("personne:read")
      */
     private $ville;
 
@@ -66,6 +73,7 @@ class Adresse
      *                 maxMessage="Votre nom doit être inférieur à {{ limit }} caractères")
      * @Assert\Regex(pattern="/\d/", match=false, message="Votre nom ne peut pas contenir de nombre")
      * @ORM\Column(type="string", length=255)
+     * @Groups("personne:read")
      */
     private $nom;
 
@@ -77,8 +85,14 @@ class Adresse
      *                 maxMessage="Votre prénom doit être inférieur à {{ limit }} caractères")
      * @Assert\Regex(pattern="/\d/", match=false, message="Votre prénom ne peut pas contenir de nombre")
      * @ORM\Column(type="string", length=255)
+     * @Groups("personne:read")
      */
     private $prenom;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $dateCreation;
 
     public function getId(): ?int
     {
@@ -177,6 +191,18 @@ class Adresse
     public function setPrenom(string $prenom): self
     {
         $this->prenom = $prenom;
+
+        return $this;
+    }
+
+    public function getDateCreation(): ?\DateTimeInterface
+    {
+        return $this->dateCreation;
+    }
+
+    public function setDateCreation(?\DateTimeInterface $dateCreation): self
+    {
+        $this->dateCreation = $dateCreation;
 
         return $this;
     }

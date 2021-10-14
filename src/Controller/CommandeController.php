@@ -32,19 +32,23 @@ class CommandeController extends AbstractController
         $facturation = $adresseRepository->find($adresse['facturation']);
         $livraison = $adresseRepository->find($adresse['livraison']);
         $produits = [];
+        $panier = $session->get('panier');
+        foreach ($panier as $id => $quantite) {
 
-        foreach ($session->get('panier') as $id => $quantite) {
             $produit =  $articleRepository->find($id);
             $produits[] = [
                 'produit' => $produit,
                 'quantite' => $quantite
             ];
-            $prix = $produit->getPrix() * $quantite;
+
+            $prix = $produits[$produit->getId()]->getPrix() * $quantite;
             $total += $prix;
 
             $commande['produit'][$produit->getId()] = ['reference' => $produit->getNom(),
                                                         'quantite' => $quantite,
-                                                        'prix' => $produit->getPrix()
+                                                        'prix' => $produit->getPrix(),
+                                                        'categorie' => $produit->getCategorie()->getNom(),
+                                                        'image' => $produit->getImages()
             ];
 
             dump("tableau de produits");

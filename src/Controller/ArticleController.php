@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Repository\ArticleRepository;
 use App\Repository\CategorieRepository;
+use App\Service\Categorie\CategorieService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,19 +14,15 @@ class ArticleController extends AbstractController
     /**
      * @Route("/article/{id}", name="article")
      */
-    public function article(int $id, ArticleRepository $articleRepository, CategorieRepository $categorieRepository): Response
+    public function article(int $id, ArticleRepository $articleRepository, CategorieService $categorieService): Response
     {
-        $categoriePlante = $categorieRepository->find(1);
-        $categorieDecoration = $categorieRepository->find(2);
-        $categorieOutil = $categorieRepository->find(3);
+        $categorie = $categorieService->getCategorie();
         $articles = $articleRepository->findBy(['categorie' => $id]);
 
         return $this->render('article/list.html.twig', [
             'controller_name' => 'ArticleController',
             'articles' => $articles,
-            'plante' => $categoriePlante,
-            'decoration' => $categorieDecoration,
-            'outil' => $categorieOutil,
+            'categorie' => $categorie
         ]);
 
     }
@@ -33,11 +30,9 @@ class ArticleController extends AbstractController
     /**
      * @Route("/article/details/{id}", name="article_details")
      */
-    public function details(int $id, ArticleRepository $articleRepository, CategorieRepository $categorieRepository){
+    public function details(int $id, ArticleRepository $articleRepository, CategorieService $categorieService){
 
-        $categoriePlante = $categorieRepository->find(1);
-        $categorieDecoration = $categorieRepository->find(2);
-        $categorieOutil = $categorieRepository->find(3);
+        $categorie = $categorieService->getCategorie();
 
 
         $article = $articleRepository->find($id);
@@ -45,9 +40,7 @@ class ArticleController extends AbstractController
         return $this->render('article/detail.html.twig', [
             'controller_name' => 'ArticleController',
             'article' => $article,
-            'plante' => $categoriePlante,
-            'decoration' => $categorieDecoration,
-            'outil' => $categorieOutil,
+            'categorie' => $categorie
         ]);
 
     }

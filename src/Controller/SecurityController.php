@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\CategorieRepository;
+use App\Service\Categorie\CategorieService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,12 +14,10 @@ class SecurityController extends AbstractController
     /**
      * @Route("/login", name="app_login")
      */
-    public function login(AuthenticationUtils $authenticationUtils, CategorieRepository $categorieRepository): Response
+    public function login(AuthenticationUtils $authenticationUtils, CategorieService $categorieService): Response
     {
-        $categoriePlante = $categorieRepository->find(1);
-        $categorieDecoration = $categorieRepository->find(2);
-        $categorieOutil = $categorieRepository->find(3);
 
+        $categorie = $categorieService->getCategorie();
 
          if ($this->getUser()) {
              return $this->redirectToRoute('home');
@@ -32,9 +31,7 @@ class SecurityController extends AbstractController
         return $this->render('security/login.html.twig', [
             'last_username' => $lastUsername,
             'error' => $error,
-            'plante' => $categoriePlante,
-            'decoration' => $categorieDecoration,
-            'outil' => $categorieOutil
+            'categorie' => $categorie
         ]);
     }
 

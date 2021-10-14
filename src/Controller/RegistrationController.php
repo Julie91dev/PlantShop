@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Repository\CategorieRepository;
+use App\Service\Categorie\CategorieService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,11 +17,9 @@ class RegistrationController extends AbstractController
     /**
      * @Route("/register", name="app_register")
      */
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasherInterface, CategorieRepository $categorieRepository): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasherInterface, CategorieService $categorieService): Response
     {
-        $categoriePlante = $categorieRepository->find(1);
-        $categorieDecoration = $categorieRepository->find(2);
-        $categorieOutil = $categorieRepository->find(3);
+        $categorie = $categorieService->getCategorie();
 
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -45,9 +44,7 @@ class RegistrationController extends AbstractController
 
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
-            'plante' => $categoriePlante,
-            'decoration' => $categorieDecoration,
-            'outil' => $categorieOutil,
+            'categorie' => $categorie
         ]);
     }
 }

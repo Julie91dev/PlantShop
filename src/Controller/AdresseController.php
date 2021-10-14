@@ -6,6 +6,7 @@ use App\Entity\Adresse;
 use App\Form\AdresseType;
 use App\Repository\AdresseRepository;
 use App\Repository\CategorieRepository;
+use App\Service\Categorie\CategorieService;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,12 +24,10 @@ class AdresseController extends AbstractController
     /**
      * @Route("/profile/adresse", name="adresse_list")
      */
-    public function list(CategorieRepository $categorieRepository, AdresseRepository $adresseRepository): Response
+    public function list(CategorieService $categorieService, AdresseRepository $adresseRepository): Response
     {
 
-        $categoriePlante = $categorieRepository->find(1);
-        $categorieDecoration = $categorieRepository->find(2);
-        $categorieOutil = $categorieRepository->find(3);
+        $categorie = $categorieService->getCategorie();
 
         $client = $this->getUser()->getId();
 
@@ -36,9 +35,7 @@ class AdresseController extends AbstractController
 
         return $this->render('user/adresse/list.html.twig', [
             'controller_name' => 'AdresseController',
-            'plante' => $categoriePlante,
-            'decoration' => $categorieDecoration,
-            'outil' => $categorieOutil,
+            'categorie' => $categorie,
             'adresses' => $adresses
         ]);
     }
@@ -46,12 +43,10 @@ class AdresseController extends AbstractController
     /**
      * @Route("/profile/adresse/add", name="adresse_add")
      */
-    public function add(Request $request, CategorieRepository $categorieRepository, EntityManagerInterface  $entityManager): Response
+    public function add(Request $request, CategorieService $categorieService, EntityManagerInterface  $entityManager): Response
     {
 
-        $categoriePlante = $categorieRepository->find(1);
-        $categorieDecoration = $categorieRepository->find(2);
-        $categorieOutil = $categorieRepository->find(3);
+        $categorie = $categorieService->getCategorie();
 
         $adresse = new Adresse();
         $adresse->setClient($this->getUser());
@@ -74,9 +69,7 @@ class AdresseController extends AbstractController
         return $this->render('user/adresse/add.html.twig', [
             'controller_name' => 'AdresseController',
             'adresseForm' => $adresseForm->createView(),
-            'plante' => $categoriePlante,
-            'decoration' => $categorieDecoration,
-            'outil' => $categorieOutil,
+            'categorie' => $categorie,
         ]);
     }
 

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\CategorieRepository;
+use App\Service\Categorie\CategorieService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -13,17 +14,14 @@ class HomeController extends AbstractController
     /**
      * @Route("/", name="home")
      */
-    public function index(CategorieRepository $categorieRepository, SessionInterface $session): Response
+    public function index(CategorieService $categorieService): Response
     {
-        $categoriePlante = $categorieRepository->find(1);
-        $categorieDecoration = $categorieRepository->find(2);
-        $categorieOutil = $categorieRepository->find(3);
+        $categorie = $categorieService->getCategorie();
+
 
         return $this->render('home/home.html.twig', [
             'controller_name' => 'HomeController',
-            'plante' => $categoriePlante,
-            'decoration' => $categorieDecoration,
-            'outil' => $categorieOutil,
+            'categorie' => $categorie
         ]);
     }
 }

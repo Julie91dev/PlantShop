@@ -7,6 +7,7 @@ use App\Repository\AdresseRepository;
 use App\Repository\ArticleRepository;
 use App\Repository\CategorieRepository;
 use App\Repository\CommandeRepository;
+use App\Service\Categorie\CategorieService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,25 +18,21 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PanierController extends AbstractController
 {
-    public function __construct()
-    {
 
-    }
 
     /**
      * @Route("/panier", name="panier")
      */
-    public function index(SessionInterface $session, ArticleRepository $articleRepository, CategorieRepository $categorieRepository): Response
+    public function index(SessionInterface $session, ArticleRepository $articleRepository, CategorieService $categorieService): Response
     {
-        $categoriePlante = $categorieRepository->find(1);
-        $categorieDecoration = $categorieRepository->find(2);
-        $categorieOutil = $categorieRepository->find(3);
+        $categorie = $categorieService->getCategorie();
 
         $panier = $session->get('panier', []);
         $panierAvecData = [];
         $total= 0;
 
         foreach ($panier as $id => $quantite){
+
             $produit =  $articleRepository->find($id);
             $panierAvecData[] = [
                 'produit' => $produit,
@@ -44,17 +41,16 @@ class PanierController extends AbstractController
             $totalItem = $produit->getPrix() * $quantite;
             $total += $totalItem;
           //  dd($panierAvecData);
+
         }
 
-        $session->set('panier', $panierAvecData);
+       // $session->set('panier', $panierAvecData);
 
         return $this->render('panier/panier.html.twig', [
             'controller_name' => 'PanierController',
             'items'=> $panierAvecData,
             'total' => $total,
-            'plante' => $categoriePlante,
-            'decoration' => $categorieDecoration,
-            'outil' => $categorieOutil,
+            'categorie' => $categorie
         ]);
     }
 
@@ -139,29 +135,33 @@ class PanierController extends AbstractController
      * Validation panier, redirection vers la page livraison
      * @Route ("/panier/livraison", name="panier_livraison")
      */
-    public function livraison(CategorieRepository $categorieRepository, AdresseRepository $adresseRepository)
+    public function livraison(CategorieService $categorieService, AdresseRepository $adresseRepository)
     {
-        $categoriePlante = $categorieRepository->find(1);
-        $categorieDecoration = $categorieRepository->find(2);
-        $categorieOutil = $categorieRepository->find(3);
-
-        $client = $this->getUser()->getId();
-
-        $adresse = $adresseRepository->findLastAdress($client);
-        $derniereAdresse = $adresseRepository->findLastAdress($client);
-
-        $adresses = $adresseRepository->findBy(['client' => $client]);
+        $categorie = $categorieService->getCategorie();
 
 
-        return $this->render('panier/livraison.html.twig', [
-            'controller_name' => 'PanierController',
-            'plante' => $categoriePlante,
-            'decoration' => $categorieDecoration,
-            'outil' => $categorieOutil,
-            'adresse' => $adresse,
-            'adresses' => $adresses,
-            'derniereAdresse' => $derniereAdresse
-        ]);
+        if (!empty($this->getUser())){
+
+            $client = $this->getUser()->getId();
+            $adresse = $adresseRepository->findLastAdress($client);
+            $derniereAdresse = $adresseRepository->findLastAdress($client);
+
+            $adresses = $adresseRepository->findBy(['client' => $client]);
+
+
+            return $this->render('panier/livraison.html.twig', [
+                'controller_name' => 'PanierController',
+                'categorie' => $categorie,
+                'adresse' => $adresse,
+                'adresses' => $adresses,
+                'derniereAdresse' => $derniereAdresse
+            ]);
+        }else {
+            $this->addFlash('error', 'Veuillez vous connecter avant de valider votre panier');
+            return $this->redirectToRoute("app_login");
+        }
+
+
     }
     /**
      * Choix de la livraison en Session
@@ -193,7 +193,7 @@ class PanierController extends AbstractController
      * Valider le panier
      * @Route ("/panier/validation", name="panier_validation")
      */
-    public function validerPanier(CategorieRepository $categorieRepository,
+    public function validerPanier(CategorieService $categorieService,
                                   SessionInterface $session,
                                   EntityManagerInterface $entityManager,
                                   Request $request,
@@ -202,10 +202,8 @@ class PanierController extends AbstractController
                                   CommandeRepository $commandeRepository,
     CommandeController $commandeController)
     {
-        $categoriePlante = $categorieRepository->find(1);
-        $categorieDecoration = $categorieRepository->find(2);
-        $categorieOutil = $categorieRepository->find(3);
 
+        $categorie = $categorieService->getCategorie();
         $client = $this->getUser()->getId();
         if ($request->getMethod() == 'POST') {
             $this->setLivraisonOnSession($request, $session);
@@ -243,9 +241,7 @@ class PanierController extends AbstractController
 
         return $this->render('panier/validerPanier.html.twig', [
             'controller_name' => 'PanierController',
-            'plante' => $categoriePlante,
-            'decoration' => $categorieDecoration,
-            'outil' => $categorieOutil,
+            'categorie' => $categorie,
             'commande' => $commande
             /*'panier' => $panier,
             'livraison' => $livraison,

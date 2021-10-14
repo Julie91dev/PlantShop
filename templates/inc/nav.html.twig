@@ -1,9 +1,9 @@
 <nav>
     <ul>
         <li><a href="{{ path('home') }}" title="Accueil">Accueil</a></li>
-        <li><a href="{{ path('article', {'id': plante.id}) }}" title="Liste des plantes">Plantes</a></li>
-        <li><a href="{{ path('article', {'id': decoration.id}) }}" title="Liste des decorations">Décorations</a></li>
-        <li><a href="{{ path('article', {'id': outil.id}) }}" title="Liste des outils">Outillage</a></li>
+        <li><a href="{{ path('article', {'id': categorie.plante.id}) }}" title="Liste des plantes">Plantes</a></li>
+        <li><a href="{{ path('article', {'id': categorie.decoration.id}) }}" title="Liste des decorations">Décorations</a></li>
+        <li><a href="{{ path('article', {'id': categorie.outil.id}) }}" title="Liste des outils">Outillage</a></li>
         <li><a href="{{ path('panier') }}" title="panier">Panier</a></li>
         <li><a href="{{ path('profile') }}" title="profil">Profil</a></li>
 

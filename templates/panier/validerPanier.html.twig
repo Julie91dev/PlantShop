@@ -22,8 +22,7 @@
         <tbody>
         {% for produit in commande.commande.produit %}
             <tr class="">
-                <td></td>
-{#                <td ><img class="img-panier" src="img/{{ produit.produit.categorie.nom }}/{{ produit.produit.images }}" alt="{{ produit.produit.nom }}" title="{{ produit.produit.nom }}"></td>#}
+                <td ><img class="img-panier" src="img/{{ produit.categorie }}/{{ produit.images }}" alt="{{ produit.produit.nom }}" title="{{ produit.produit.nom }}"></td>
                 <td class="align-middle">{{ produit.reference }}</td>
                 <td class="align-middle">{{ produit.prix }}€</td>
                 <td class="align-middle"> {{ produit.quantite }}</td>

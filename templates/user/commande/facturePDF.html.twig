@@ -1,0 +1,64 @@
+
+
+
+
+{% block content %}
+
+<h1>PlantShop</h1>
+<table id="enTete">
+    <tr>
+        <td colspan="1"></td>
+        <td colspan="1"><h1>Facture</h1></td>
+        <td colspan="1"></td>
+    </tr>
+    <tr>
+        <td width="80">Page</td>
+        <td width="100">Date</td>
+        <td width="120">Ref</td>
+    </tr>
+    <tr>
+        <td class="color">[[page_nb]]</td>
+        <td class="color">{{ facture.date|date('d-m-Y') }}</td>
+        <td class="color">{{ facture.reference }}</td>
+    </tr>
+</table>
+<ul id="coordonnes">
+    <li>{{ facture.commande.facturation.nom }} {{ facture.commande.facturation.prenom }}</li>
+    <li>{{ facture.commande.facturation.numero}} {{ facture.commande.facturation.rue}}</li>
+    <li>{{ facture.commande.facturation.cp }} {{ facture.commande.facturation.ville }}</li>
+</ul>
+<table id="entity">
+    <tr>
+        <td width="280">DESIGNATION</td>
+        <td width="105">QUANTITE</td>
+        <td width="100">P.U </td>
+        <td width="105">MONTANT HT</td>
+        <td width="105">Total</td>
+    </tr>
+    {% for produit in facture.commande.produit %}
+        <tr>
+            <td class="color">{{ produit.reference }}</td>
+            <td class="color">{{ produit.quantite }}</td>
+            <td class="color">{{ produit.prix }} €</td>
+            <td class="color">{{ produit.prix * produit.quantite }} €</td>
+            <td class="color">{{ produit.prix * produit.quantite }} €</td>
+        </tr>
+    {% endfor %}
+</table>
+<table id="total">
+    <tr>
+        <td width="110">TOTAL HT :</td>
+        <td width="100" class="color">{{ facture.commande.prix }} €</td>
+    </tr>
+
+    <tr>
+        <td width="110">TOTAL TTC :</td>
+        <td width="100" class="color">{{ facture.commande.prix }} €</td>
+    </tr>
+</table>
+{#<div id="footer">
+    <span class="color strong">{{ adresse }}</span>
+    <br />
+    {{ telephone }}
+</div>#}
+{% endblock %}

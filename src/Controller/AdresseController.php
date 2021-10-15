@@ -6,6 +6,7 @@ use App\Entity\Adresse;
 use App\Form\AdresseType;
 use App\Repository\AdresseRepository;
 use App\Repository\CategorieRepository;
+use App\Service\Adresse\AdresseService;
 use App\Service\Categorie\CategorieService;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -24,14 +25,12 @@ class AdresseController extends AbstractController
     /**
      * @Route("/profile/adresse", name="adresse_list")
      */
-    public function list(CategorieService $categorieService, AdresseRepository $adresseRepository): Response
+    public function list(CategorieService $categorieService, AdresseService $adresseService): Response
     {
 
         $categorie = $categorieService->getCategorie();
 
-        $client = $this->getUser()->getId();
-
-        $adresses = $adresseRepository->findBy(['client' => $client]);
+        $adresses = $adresseService->getAllAdresseByClient();
 
         return $this->render('user/adresse/list.html.twig', [
             'controller_name' => 'AdresseController',

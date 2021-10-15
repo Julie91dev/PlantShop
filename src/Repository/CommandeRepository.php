@@ -19,6 +19,18 @@ class CommandeRepository extends ServiceEntityRepository
         parent::__construct($registry, Commande::class);
     }
 
+    public function byFacture($utilisateur)
+    {
+        $qb = $this->createQueryBuilder('u')
+            ->select('u')
+            ->where('u.client = :client')
+            ->andWhere('u.valider = 1')
+            ->andWhere('u.reference != 0')
+            ->orderBy('u.id')
+            ->setParameter('client', $utilisateur);
+
+        return $qb->getQuery()->getResult();
+    }
     // /**
     //  * @return Commande[] Returns an array of Commande objects
     //  */

@@ -33,7 +33,11 @@
         {% endfor %}
 
         <main >
-            {% block body %}{% endblock %}
+            {% block body %}
+                <div>
+                {% block content %}{% endblock %}
+                </div>
+            {% endblock %}
         </main>
 
         <footer>

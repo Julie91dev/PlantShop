@@ -6,6 +6,7 @@ use App\Entity\Commande;
 use App\Repository\AdresseRepository;
 use App\Repository\ArticleRepository;
 use App\Repository\CommandeRepository;
+use App\Service\Commande\CommandeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,10 +17,10 @@ use Symfony\Component\Security\Csrf\TokenStorage\TokenStorageInterface;
 
 class CommandeController extends AbstractController
 {
-    /**
+  /*  /**
      * @throws Exception
      */
-    public function facture(SessionInterface $session,
+   /* public function facture(SessionInterface $session,
                             AdresseRepository $adresseRepository,
                             ArticleRepository $articleRepository)
     {
@@ -53,7 +54,7 @@ class CommandeController extends AbstractController
 
             dump("tableau de produits");
             dump($produits);
-            dump($prix);
+            dump($prix);*/
 
 
 
@@ -70,9 +71,9 @@ class CommandeController extends AbstractController
                 dump("verification du tableau commande");
                 dump($commande);
             }*/
-        }
+      /*  }
         dump("verification du tableau commande");
-        dump($commande);
+        dump($commande);*/
        /* foreach ($produits as $produit)
         {
             dump("produit");
@@ -89,7 +90,7 @@ class CommandeController extends AbstractController
             ];
         }*/
 
-        $commande['livraison'] = [  'prenom' => $livraison->getPrenom(),
+       /* $commande['livraison'] = [  'prenom' => $livraison->getPrenom(),
                                     'nom' => $livraison->getNom(),
                                     'telephone' => $livraison->getTelephone(),
                                     'numero' => $livraison->getNumero(),
@@ -111,17 +112,12 @@ class CommandeController extends AbstractController
         $commande['token'] = $token;
 
         return $commande;
-    }
+    }*/
 
 
-    public function prepareCommande(SessionInterface $session,
-                                    CommandeRepository $commandeRepository,
-                                    EntityManagerInterface $entityManager,
-                                    AdresseRepository $adresseRepository,
-                                    ArticleRepository $articleRepository
-    )
+    public function prepareCommande(CommandeService $commandeService)
     {
-        if (!$session->has('commande')){
+       /* if (!$session->has('commande')){
             $commande = new Commande();
         }else{
             $commande = $commandeRepository->find($session->get('commande'));
@@ -138,8 +134,8 @@ class CommandeController extends AbstractController
             $session->set('commande', $commande);
         }
 
-        $entityManager->flush();
-
+        $entityManager->flush();*/
+        $commande = $commandeService->prepareCommande();
         return new Response($commande->getId());
     }
     /*
@@ -153,9 +149,9 @@ class CommandeController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      * @Route ("/commande/validation/{id}", name="commande_validation")
      */
-    public function validationCommande(int $id, CommandeRepository $commandeRepository, EntityManagerInterface $entityManager, SessionInterface $session)
+    public function validationCommande(int $id, CommandeService $commandeService)
     {
-            $commande = $commandeRepository->find($id);
+           /* $commande = $commandeRepository->find($id);
 
             if (!$commande || $commande->getValider() == 1){
                 throw $this->createNotFoundException('La commande n\'existe pas');
@@ -167,11 +163,12 @@ class CommandeController extends AbstractController
 
             $session->remove('panier');
             $session->remove('adresse');
-            $session->remove('commande');
+            $session->remove('commande');*/
 
+            $commandeService->validationCommande($id);
             $this->addFlash('success', 'Votre commande est validée avec succès');
 
-            return $this->redirectToRoute("home");
+            return $this->redirectToRoute("profile_facture");
 
     }
 
@@ -180,7 +177,7 @@ class CommandeController extends AbstractController
      */
     public function index(): Response
     {
-        return $this->render('user/commande/index.html.twig', [
+        return $this->render('user/commande/facture.html.twig', [
             'controller_name' => 'CommandeController',
         ]);
     }

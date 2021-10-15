@@ -7,7 +7,7 @@
 <h2 class="titre-profil">Votre compte</h2>
     <div class="card-deck">
         <div class="card border-primary">
-            <a href="#">
+            <a href="{{ path('profile_facture') }}">
                 <img class="card-img-top border-primary" src="{{ asset('img/user/cadie.jpg') }}" alt="Card image cap">
                 <div class="card-body border-primary">
                     <h5 class="card-title">Vos commandes</h5>
@@ -16,7 +16,7 @@
             </a>
         </div>
         <div class="card border-success">
-            <a href="#">
+            <a href="{{ path('profile_monprofil') }}">
                 <img class="card-img-top" src="{{ asset('img/user/securite.jpg') }}" alt="Card image cap">
                 <div class="card-body">
                     <h5 class="card-title">Connexion & sécurité</h5>

@@ -12,6 +12,9 @@ use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Csrf\TokenStorage\TokenStorageInterface;
 
@@ -149,7 +152,7 @@ class CommandeController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      * @Route ("/commande/validation/{id}", name="commande_validation")
      */
-    public function validationCommande(int $id, CommandeService $commandeService)
+    public function validationCommande(int $id, CommandeService $commandeService, MailerInterface $mailer)
     {
            /* $commande = $commandeRepository->find($id);
 
@@ -167,6 +170,22 @@ class CommandeController extends AbstractController
 
             $commandeService->validationCommande($id);
             $this->addFlash('success', 'Votre commande est validée avec succès');
+            $email = (new Email())
+                    ->from('account@plantshop.fr')
+                    ->to($this->getUser()->getUserIdentifier())
+                    //->cc('cc@example.com')
+                    //->bcc('bcc@example.com')
+                    //->replyTo('fabien@example.com')
+                    //->priority(Email::PRIORITY_HIGH)
+                    ->subject('Votre commande PlantShop')
+                    ->text('Confirmation de votre commande')
+                    ->html('<p>Votre commande a été prise en compte</p>');
+            try{
+                $mailer->send($email);
+            }catch (TransportExceptionInterface $e){
+                $e->getMessage();
+            }
+
 
             return $this->redirectToRoute("profile_facture");
 
@@ -175,10 +194,10 @@ class CommandeController extends AbstractController
     /**
      * @Route("/profile/commande", name="commande")
      */
-    public function index(): Response
+  /*  public function index(): Response
     {
         return $this->render('user/commande/facture.html.twig', [
             'controller_name' => 'CommandeController',
         ]);
-    }
+    }*/
 }

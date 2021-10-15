@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Repository\AdresseRepository;
 use App\Repository\CategorieRepository;
 use App\Repository\CommandeRepository;
+use App\Service\Adresse\AdresseService;
 use App\Service\Categorie\CategorieService;
 use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Knp\Snappy\Pdf;
@@ -27,6 +29,22 @@ class UserController extends AbstractController
     }
 
     /**
+     * @Route("/profile/commande", name="profile_commande_historique")
+     */
+    public function listCommande(CategorieService $categorieService, CommandeRepository $commandeRepository): Response
+    {
+        $categorie = $categorieService->getCategorie();
+
+        $commandes = $commandeRepository->findBy(['client' => $this->getUser()]);
+
+        return $this->render('user/profile/commande.html.twig', [
+            'controller_name' => 'UserController',
+            'categorie' => $categorie,
+            'commande' => $commandes
+        ]);
+    }
+
+    /**
      * @return Response
      * @Route("/profile/facture", name="profile_facture")
      */
@@ -46,42 +64,33 @@ class UserController extends AbstractController
      * @param $id
      * @param CommandeRepository $commandeRepository
      * @param Pdf $pdf
-     * @return PdfResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      * @Route("/profile/facture", name="profile_facturePDF")
      */
-    public function facturesPDFAction($id, CommandeRepository $commandeRepository, Pdf $pdf)
+    public function facturesPDFAction($id, CommandeRepository $commandeRepository,Pdf $pdf)
     {
         $facture = $commandeRepository->findOneBy(array('utilisateur' => $this->getUser(),
             'valider' => 1,
             'id' => $id));
 
-        dump($facture);
-        die();
 
         if (!$facture) {
             $this->get('session')->getFlashBag()->add('error', 'Une erreur est survenue');
-            //return $this->redirect($this->generateUrl('facutres'));
             return $this->redirectToRoute("profile_facture");
         }
 
         $html = $this->renderView('user/commande/facturePDF.html.twig', ['facture' => $facture]);
-/*
-        $html2pdf = new \Html2Pdf_Html2Pdf('P','A4','fr');
-        $html2pdf->pdf->SetAuthor('DevAndClick');
-        $html2pdf->pdf->SetTitle('Facture '.$facture->getReference());
-        $html2pdf->pdf->SetSubject('Facture DevAndClick');
-        $html2pdf->pdf->SetKeywords('facture,devandclick');
-        $html2pdf->pdf->SetDisplayMode('real');
-        $html2pdf->writeHTML($html);
-        $html2pdf->Output('Facture.pdf');*/
+        $filename = $facture->getReference();
 
-        /*$response = new Response();
-        $response->headers->set('Content-type' , 'application/pdf');*/
-
-        return new PdfResponse(
+        return new Response(
             $pdf->getOutputFromHtml($html),
-            'facture-'.$facture->getId().'.pdf'
+            200,
+            [
+                'Content-Type'          => 'application/pdf',
+                'Content-Disposition'   => 'inline; filename="'.$filename.'.pdf"'
+            ]
         );
+
+
     }
 
     /**
@@ -106,5 +115,21 @@ class UserController extends AbstractController
                 'Content-Disposition'   => 'inline; filename="'.$filename.'.pdf"'
             ]
         );
+    }
+
+    /**
+     * @Route("/profile/monprofil", name="profile_monprofil")
+     */
+    public function info(CategorieService $categorieService, AdresseRepository $adresseRepository): Response
+    {
+        $idClient = $this->getUser()->getId();
+        $categorie = $categorieService->getCategorie();
+        $adresse = $adresseRepository->findLastAdress($idClient);
+
+        return $this->render('user/profile/profil.html.twig', [
+            'controller_name' => 'UserController',
+            'categorie' => $categorie,
+            'adresse' => $adresse
+        ]);
     }
 }

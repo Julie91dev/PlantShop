@@ -1,9 +1,9 @@
 <nav>
     <ul>
         <li><a href="{{ path('home') }}" title="Accueil">Accueil</a></li>
-        <li><a href="{{ path('article', {'id': categorie.plante.id}) }}" title="Liste des plantes">Plantes</a></li>
+        {#<li><a href="{{ path('article', {'id': categorie.plante.id}) }}" title="Liste des plantes">Plantes</a></li>
         <li><a href="{{ path('article', {'id': categorie.decoration.id}) }}" title="Liste des decorations">Décorations</a></li>
-        <li><a href="{{ path('article', {'id': categorie.outil.id}) }}" title="Liste des outils">Outillage</a></li>
+        <li><a href="{{ path('article', {'id': categorie.outil.id}) }}" title="Liste des outils">Outillage</a></li>#}
         <li><a href="{{ path('panier') }}" title="panier">Panier</a></li>
         <li><a href="{{ path('profile') }}" title="profil">Profil</a></li>
 
@@ -11,6 +11,10 @@
             <li><a href="{{ path('app_logout') }}" title="Déconnexion">Déconnexion</a></li>
             <li>Bonjour {{ app.user.prenom }}</li>
            {#  <li><a href="{{ path('profile') }}" title="Déconnexion">Profil</a></li>#}
+
+            {% if is_granted("ROLE_ADMIN") %}
+                <li><a href="{{ path('admin_dashboard') }}" title="tableau de bord">Tableau de bord</a></li>
+            {% endif %}
         {% else %}
             <li><a href="{{ path('app_login') }}" title="Connexion">Connexion</a></li>
             <li><a href="{{ path('app_register') }}" title="Inscription">Inscription</a></li>

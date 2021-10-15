@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon profil! | {{ parent() }}{% endblock %}
+
+{% block body %}
+    <h2>Mon profil</h2>
+    <p>Nom et prénom</p>
+    <p>{{app.user.nom}} {{app.user.prenom}}</p>
+    <p>Email</p>
+    <p>{{app.user.email}}</p>
+    <p>Mot de passe</p>
+    <p>***********</p><a href="#">Mofidier</a>
+    <p>Adresse</p>
+    <p>{{adresse.numero}} {{adresse.rue}}</p>
+    <p>{{adresse.cp}} {{adresse.ville}}</p>
+
+    <p>Numéro de téléphone</p>
+    <p>{{adresse.telephone}}</p>
+
+    <p></p>
+
+{% endblock %}

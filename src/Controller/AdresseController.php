@@ -73,6 +73,56 @@ class AdresseController extends AbstractController
     }
 
     /**
+     * @Route("/profile/adresse/delete", name="adresse_delete")
+     */
+    public function delete(Request $request, CategorieService $categorieService, EntityManagerInterface  $entityManager, AdresseRepository $adresseRepository): Response
+    {
+        $result = false;
+        if ($request->isXmlHttpRequest()){
+            $postData = json_decode($request->getContent());
+            $idAdresse = $postData->idAdresse;
+            $adresse = $adresseRepository->find($idAdresse);
+            $entityManager->remove($adresse);
+            $entityManager->flush();
+
+            return new Response("ok");
+        }
+        return new Response("not ok");
+
+
+    }
+
+
+    /**
+     * @Route("/profile/adresse/update/{id}", name="adresse_update")
+     */
+    public function update(Adresse $adresse,Request $request, CategorieService $categorieService, EntityManagerInterface  $entityManager, AdresseRepository $adresseRepository): Response
+    {
+        $categorie = $categorieService->getCategorie();
+//        $adresse = $adresseRepository->find($id);
+        $adresseForm = $this->createForm(AdresseType::class, $adresse);
+        $adresseForm->handleRequest($request);
+
+        if ($adresseForm->isSubmitted() && $adresseForm->isValid()){
+            $entityManager->persist($adresse);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Adresse modifiée');
+            return $this->redirectToRoute('adresse_list');
+        }
+
+
+
+        return $this->render('user/adresse/update.html.twig', [
+            'controller_name' => 'AdresseController',
+            'categorie' => $categorie,
+            'adresse' => $adresse,
+            'adresseForm' => $adresseForm->createView()
+        ]);
+
+
+    }
+    /**
      * @param Request $request
      * @param AdresseRepository $adresseRepository
      * @return JsonResponse|Response

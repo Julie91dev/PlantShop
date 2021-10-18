@@ -35,6 +35,11 @@ class AdresseRepository extends ServiceEntityRepository
         ;
     }
 
+    public function delete($id)
+    {
+
+    }
+
 
     /*
     public function findOneBySomeField($value): ?Adresse

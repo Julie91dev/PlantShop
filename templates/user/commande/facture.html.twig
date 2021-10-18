@@ -29,7 +29,7 @@
                         <tr>
                             <th>Références</th>
                             <th>Date</th>
-                            <th>Prix TTC</th>
+                            <th>Total</th>
                             <th></th>
                         </tr>
                         </thead>
@@ -45,7 +45,7 @@
                                 <td>{{ facture.date|date('d/m/Y') }}</td>
                                 <td>{{ facture.commande.prix }} €</td>
 {#                                <td><a href="{{ path('profile_facturePDF', { 'id' : facture.id }) }}" target="_blank">PDF</a></td>#}
-                                <td><a href="{{ path('test', { 'id' : facture.id }) }}" target="_blank">Test</a></td>
+                                <td><a href="{{ path('test', { 'id' : facture.id }) }}" target="_blank">Télécharger votre facture</a></td>
                             </tr>
                         {% endfor %}
                         </tbody>

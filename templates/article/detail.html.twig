@@ -14,14 +14,15 @@
             <div class="details-prix">{{ article.prix }}€</div>
             <br><br>
             <div class="btn-detail">
-                <a href="{{ path('panier_add', {'id': article.id}) }}" class="ajout-detail btn btn-lg btn-outline-success " title="ajouter {{ article.nom }}">
-                    <i class="bi bi-cart-plus"></i>
-                    Ajouter
-                </a>
                 <a href="{{ path('article', {'id': article.categorie.id}) }}" class="ajout-detail btn btn-lg btn-outline-info " title="retour">
                     <i class="bi bi-backspace"></i>
                     Retour
                 </a>
+                <a href="{{ path('panier_add', {'id': article.id}) }}" class="ajout-detail btn btn-lg btn-outline-success " title="ajouter {{ article.nom }}">
+                    <i class="bi bi-cart-plus"></i>
+                    Ajouter
+                </a>
+
             </div>
 
         </div>

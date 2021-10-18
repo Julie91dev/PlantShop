@@ -9,14 +9,18 @@
     <p>Email</p>
     <p>{{app.user.email}}</p>
     <p>Mot de passe</p>
-    <p>***********</p><a href="#">Mofidier</a>
-    <p>Adresse</p>
+    <p>***********</p><a href="{{ path('profile_edit', {'id': app.user.id}) }}">Mofidier</a>
+    <p>***********</p><a href="{{ path('profile_delete', {'id': app.user.id}) }}">Supprimer mon compte</a>
+    <p>Mon adresse principal</p>
+    {% if adresse %}
     <p>{{adresse.numero}} {{adresse.rue}}</p>
     <p>{{adresse.cp}} {{adresse.ville}}</p>
 
     <p>Numéro de téléphone</p>
     <p>{{adresse.telephone}}</p>
+    {%  else %}
 
-    <p></p>
+    <p>Vous n'avez pas encore d'adresse enregistrée</p>
+    {% endif %}
 
 {% endblock %}

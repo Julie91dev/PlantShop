@@ -41,7 +41,24 @@
         </main>
 
         <footer>
-            <p>&copy; {{ "now" |date('Y') }} PlantShop</p>
+            <div class="footer">
+                <div class="information">
+                    <h6>Information</h6>
+                    <a href="#">CGV</a><br>
+                    <a href="#">Mentions légales</a>
+                </div>
+                <div class="entrepot">
+                    <h6>Notre entrepôt</h6>
+                    <a href="#"><i class="bi bi-geo-alt-fill"></i> 12 rue au milieu de nulle Part - Mars</a>
+                </div>
+                <div class="contact">
+                    <h6>Nous contacter</h6>
+                    <p><i class="bi bi-telephone"></i> Tel: 00 00 00 00 00<br>
+                        <i class="bi bi-printer"></i> Fax: 00 00 00 00 00<br>
+                        <i class="bi bi-envelope"></i> account@plantshop.fr</p>
+                </div>
+            </div>
+            <p class="copy">&copy; {{ "now" |date('Y') }} PlantShop</p>
 
         </footer>
     </div>

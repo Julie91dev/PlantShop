@@ -3,50 +3,89 @@
 {% block title %}Livraison! | {{ parent() }}{% endblock %}
 
 {% block body %}
+<section class="livraison bg-light p-3">
     <h2>Livraison</h2>
-    <form action="{{ path('panier_validation') }}" method="post">
-
+</section>
+    <form action="{{ path('panier_validation') }}" method="post" class="f-livraison">
+        <div class="form-livraison">
+        <div class="adresse-livraison">
         <h4>Adresse de livraison</h4>
-        <label class="radio">
-        <input type="radio" name="livraison" id="livraison" checked data-livraison="{{ adresse.id }}" value="{{ adresse.id }}"><p id="livraisonP">{{ adresse.prenom }}
-                {{ adresse.nom }} {{ adresse.numero}} {{ adresse.rue }} {{ adresse.ville }} {{ adresse.cp }}</p>
-        </label>
-       {# <p> {{ adresse.numero}} {{ adresse.rue }}</p>
-        <p> {{ adresse.ville }} {{ adresse.cp }}</p>#}
-        <a id="myBtn">Choisir</a>
 
-        <h4>Adresse de facturation</h4>
-        <label class="radio">
-        <input type="radio" name="facturation" id="facturation" checked data-facturation="{{ adresse.id }}" value="{{ adresse.id }}"><p id="facturationP">{{ adresse.prenom }}
-        {{ adresse.nom }} {{ adresse.numero}} {{ adresse.rue }} {{ adresse.ville }} {{ adresse.cp }}</p>
-        </label>
-        {#<p> {{ adresse.numero}} {{ adresse.rue }}</p>
-        <p> {{ adresse.ville }} {{ adresse.cp }}</p>#}
-        <a id="myBtn1">Choisir</a>
-
-        <div class="valider">
-{#            <a href="#" id="valider" title="valider et passer commande" class=" btn btn-outline-success btn-lg">Valider</a>#}
-            <button class="btn btn-primary">Valider mes adresses</button>
+            {% if adresse | length > 0 %}
+                <div class="input_choix">
+                <label class="radio">
+                <input type="radio" class="input-livraison" name="livraison" id="livraison" checked data-livraison="{{ adresse.id }}" value="{{ adresse.id }}">
+                    <p id="livraisonP" class="p-facturation">{{ adresse.prenom }} {{ adresse.nom | upper}} <br>
+                                                            {{ adresse.numero}} {{ adresse.rue }} <br>
+                                                            {{ adresse.ville }} {{ adresse.cp }}</p>
+                </label>
+               {# <p> {{ adresse.numero}} {{ adresse.rue }}</p>
+                <p> {{ adresse.ville }} {{ adresse.cp }}</p>#}
+                <a id="myBtn" class="choix">Choisir une auter adresse</a>
+                </div>
+            {% else %}
+                <p>Aucune adresse de renseignée</p>
+            {% endif %}
         </div>
+        <div class="adresse-facturation">
+        <h4>Adresse de facturation</h4>
+            {% if adresse | length > 0 %}
+            <div class="input_choix">
+                <label class="radio">
+                <input type="radio" class="input-facturation" name="facturation" id="facturation" checked data-facturation="{{ adresse.id }}" value="{{ adresse.id }}">
+                    <p id="facturationP" class="p-facturation">{{ adresse.prenom }} {{ adresse.nom | upper}} <br>
+                                                                {{ adresse.numero}} {{ adresse.rue }} <br>
+                                                                {{ adresse.ville }} {{ adresse.cp }}</p>
+                </label>
+                {#<p> {{ adresse.numero}} {{ adresse.rue }}</p>
+                <p> {{ adresse.ville }} {{ adresse.cp }}</p>#}
+                <a id="myBtn1" class="choix">Choisir une autre adresse</a>
+            </div>
+            {% else %}
+                <p>Aucune adresse de renseignée</p>
+            {% endif %}
+        </div>
+        </div>
+        {% if adresse | length > 0 %}
+        <div class="valider-livraison">
+{#            <a href="#" id="valider" title="valider et passer commande" class=" btn btn-outline-success btn-lg">Valider</a>#}
+            <button class="">Valider mes adresses</button>
+        </div>
+        {% endif %}
     </form>
+    <p class="ou">OU</p>
+<div class="valider-livraison">
+
+    <a href="{{ path('adresse_add') }}" >Ajouter une adresse</a>
+</div>
+
     <!-- The Modal -->
-    <div id="myModal" class="modal">
+    <div id="myModal" class="overlay">
 
         <!-- Modal content -->
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h4>Ma dernière adresse utilisé</h4>
-            <p> {{ derniereAdresse.prenom }} {{ derniereAdresse.nom }} </p>
-            <p> {{ derniereAdresse.numero}} {{ derniereAdresse.rue }}</p>
-            <p> {{ derniereAdresse.ville }} {{ derniereAdresse.cp }}</p>
+        <div id="popup" class="popup">
+            <span id="close" class="close">&times;</span>
+            <h4>Ma dernière adresse utilisée</h4>
+            <div>
+                <div class="modal-derniere-adresse">
+                    {% if derniereAdresse | length > 0 %}
+                    <p> {{ derniereAdresse.prenom }} {{ derniereAdresse.nom }}, {{ derniereAdresse.numero}} {{ derniereAdresse.rue }} - {{ derniereAdresse.ville }} {{ derniereAdresse.cp }}</p>
+                    {% endif %}
+                    </div>
 
-            <h4>Mes autres adresses</h4>
-            {% for adresse in adresses %}
-                <p> {{ adresse.id }} {{ adresse.prenom }} {{ adresse.nom }} {{ adresse.numero}} {{ adresse.rue }} {{ adresse.ville }} {{ adresse.cp }}
-                    <button class="myBtnChoix" data-adresseId="{{ adresse.id }}">Choisir</button></p>
-            {% endfor %}
+                    <h4>Mes autres adresses</h4>
+                    <div class="modal-toute-adresse">
+                    {% if adresses | length > 0 %}
+                    {% for adresse in adresses %}
+                        <ul>
+                            <li>{{ adresse.prenom }} {{ adresse.nom }}, {{ adresse.numero}} {{ adresse.rue }} - {{ adresse.ville }} {{ adresse.cp }}
+                            <button class="myBtnChoix" data-adresseId="{{ adresse.id }}">Choisir</button></li>
+                        </ul>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
         </div>
-
     </div>
 
 {% endblock %}
@@ -89,7 +128,10 @@
                     $id = response["id"]
                     console.log($id)
                     $('#livraison').replaceWith("<input type=\"radio\" name=\"livraison\" id=\"livraison\" checked data-livraison=" + response["id"] + "\" value="+ response["id"] +"\">")
-                     $('#livraisonP').replaceWith("<p>" + response["prenom"] + response["nom"] + response["numero"] + response["rue"] + response["ville"] + response["cp"] + "</p>")
+                     $('#livraisonP').replaceWith("<p>" + response["prenom"]+ " " + response["nom"] + " <br>" +
+                         response["numero"] + " " + response["rue"] + " <br>" +
+                         response["ville"] + response["cp"] + "</p>")
+
 
 
                     modal.style.display = "none";

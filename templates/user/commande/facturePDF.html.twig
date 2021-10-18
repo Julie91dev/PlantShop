@@ -1,6 +1,87 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>DocumentPDF</title>
+    <link rel="stylesheet" href="{{ absolute_url(asset('css/facture.css')) }}">
+</head>
+<body>
+<div class="facture">
+    <div class="facture-premiere">
+        <div class="titre-facture">
+            <h1>PlantShop</h1>
+        </div>
+        <div class="entete">
+            <table id="enTete">
+                <tr >
+                    <td ></td>
+                    <td ><h2 class="entete-titre">Facture</h2></td>
+                    <td ></td>
+                </tr>
+                <tr>
+                    <td >Date</td>
+                    <td >Ref</td>
+                </tr>
+                <tr>
+                    <td class="color">{{ facture.date|date('d-m-Y') }}</td>
+                    <td class="color">{{ facture.reference }}</td>
+                </tr>
+            </table>
+        </div><br><br>
+        <div class="coordonnes">
+            <ul id="coordonnes">
+                <li>{{ facture.commande.facturation.nom }} {{ facture.commande.facturation.prenom }}</li>
+                <li>{{ facture.commande.facturation.numero}} {{ facture.commande.facturation.rue}}</li>
+                <li>{{ facture.commande.facturation.cp }} {{ facture.commande.facturation.ville }}</li>
+            </ul>
+        </div>
+    </div><br>
+    <div class="entity">
+    <table id="entity">
+        <tr>
+            <td style="width:280px;">DESIGNATION</td>
+            <td style="width:105px;">QUANTITE</td>
+            <td style="width:100px;">P.U </td>
+            <td style="width:105px;">Total</td>
+        </tr>
+        {% for produit in facture.commande.produit %}
+            <tr>
+                <td class="color">{{ produit.reference }}</td>
+                <td class="color">{{ produit.quantite }}</td>
+                <td class="color">{{ produit.prix }} €</td>
+                <td class="color">{{ produit.prix * produit.quantite }} €</td>
+            </tr>
+        {% endfor %}
+    </table>
+    </div>
+    <div class="total">
+    <table id="total">
+        <tr>
+            <td style="width:110px;">TOTAL TTC :</td>
+            <td style="width:100px;" class="color">{{ facture.commande.prix }} €</td>
+        </tr>
+    </table>
+    </div>
+    <div id="footer" class="footer">
 
-
-
+        <p><span class="color strong"><i class="bi bi-geo-alt-fill"></i> 12 rue au milieu de nulle Part - Mars</span>
+            <br />
+            <i class="bi bi-telephone"></i> Tel: 00 00 00 00 00<br>
+            <i class="bi bi-printer"></i> Fax: 00 00 00 00 00<br>
+            <i class="bi bi-envelope"></i> account@plantshop.fr</p>
+       {# <span class="color strong"> 12 rue au milieu de nulle Part - Mars</span>
+        <br />
+        Tel: 00 00 00 00 00<br>
+         Fax: 00 00 00 00 00<br>
+         account@plantshop.fr#}
+    </div>
+</div>
+</body>
+</html>
+{#
 
 {% block content %}
 
@@ -56,9 +137,16 @@
         <td width="100" class="color">{{ facture.commande.prix }} €</td>
     </tr>
 </table>
-{#<div id="footer">
-    <span class="color strong">{{ adresse }}</span>
+
+<div id="footer">
+    <span class="color strong"><i class="bi bi-geo-alt-fill"></i> 12 rue au milieu de nulle Part - Mars</span>
     <br />
-    {{ telephone }}
-</div>#}
+    <i class="bi bi-telephone"></i> Tel: 00 00 00 00 00<br>
+    <i class="bi bi-printer"></i> Fax: 00 00 00 00 00<br>
+    <i class="bi bi-envelope"></i> account@plantshop.fr
+</div>
+
 {% endblock %}
+{% block stylesheets %}
+    <link href="{{ asset('css/facture.css') }}" rel="stylesheet" type="text/css">
+{% endblock %}#}

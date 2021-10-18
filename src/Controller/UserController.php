@@ -2,15 +2,21 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use App\Form\UserType;
 use App\Repository\AdresseRepository;
 use App\Repository\CategorieRepository;
 use App\Repository\CommandeRepository;
+use App\Repository\UserRepository;
 use App\Service\Adresse\AdresseService;
 use App\Service\Categorie\CategorieService;
+use Doctrine\ORM\EntityManagerInterface;
 use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Knp\Snappy\Pdf;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends AbstractController
@@ -131,5 +137,53 @@ class UserController extends AbstractController
             'categorie' => $categorie,
             'adresse' => $adresse
         ]);
+    }
+
+    /**
+     * @Route("/profile/monprofil/edit/{id}", name="profile_edit")
+     */
+    public function update(UserPasswordHasherInterface $userPasswordHasherInterface,CategorieService $categorieService, EntityManagerInterface $entityManager, Request $request, User $user): Response
+    {
+        $categorie = $categorieService->getCategorie();
+        $userForm = $this->createForm(UserType::class, $user);
+        $userForm->handleRequest($request);
+
+        if ($userForm->isSubmitted() && $userForm->isValid()){
+            $encodedPassword = $userPasswordHasherInterface->hashPassword(
+                $user,
+                $userForm->get('password')->getData()
+            );
+
+            $user->setPassword($encodedPassword);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Profil modifiée');
+            return $this->redirectToRoute('profile_monprofil');
+        }
+
+
+
+        return $this->render('user/profile/editProfil.html.twig', [
+            'controller_name' => 'AdresseController',
+            'categorie' => $categorie,
+            'user' => $user,
+            'userForm' => $userForm->createView()
+        ]);
+
+    }
+
+    /**
+     * @Route("/profile/monprofil/delete/{id}", name="profile_delete")
+     */
+    public function delete(CategorieService $categorieService, EntityManagerInterface $entityManager, int $id, UserRepository $userRepository): Response
+    {
+        $categorie = $categorieService->getCategorie();
+        $user = $userRepository->find($id);
+        $entityManager->remove($user);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Votre compte a été supprimé');
+        return $this->redirectToRoute('app_logout');
+
     }
 }

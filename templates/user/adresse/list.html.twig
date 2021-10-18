@@ -11,16 +11,73 @@
             </div>
         </div>
          {% for adresse in adresses %}
-             <div class="card border-succes" style="width: 18rem;">
+             <div id="{{ adresse.id }}" class="card border-succes" style="width: 18rem;">
                 <div class="card-body">
                     <h5 class="card-title">{{ adresse.prenom }} {{ adresse.nom }}</h5>
                     <h6 class="card-subtitle mb-2 text-muted">{{ adresse.numero }} {{ adresse.rue }}</h6>
                     <p class="card-text">{{ adresse.ville }} {{ adresse.cp }}</p>
                     <p class="card-text">Numéro de téléphone {{ adresse.telephone }}</p>
-                    <a href="#" class="card-link">Modifier</a>
-                    <a href="#" class="card-link">Supprimer</a>
+                    <a href="{{ path('adresse_update', {'id':  adresse.id }) }}" class="card-link">Modifier</a>
+                    <button style="" class="delete" value="{{ adresse.id }}">Supprimer</button>
+{#                    <a id="delete" data-adresse="{{ adresse.id }}" class="card-link">Supprimer</a>#}
                 </div>
             </div>
             {% endfor %}
     </div>
+{% endblock %}
+{% block javascripts %}
+<script>
+    $('.delete').on('click', function () {
+        var idAdresse = $(this).val();
+
+        console.log(idAdresse);
+
+        //var formdata = new FormData();
+        //formdata.append("id_activite", id_activite);
+        var datas = {'idAdresse': idAdresse};
+        //On récupère le hash pour valider la requête AJAX
+        //formdata.append(crsf_name, crsf_hash);
+
+        var deletechoice = confirm('Supprimer cette adresse ?');
+        if (deletechoice){
+            $.ajax({
+                url: '{{ path('adresse_delete') }}',
+                crossDomain: false,
+                processData: false,
+                contentType: false,
+                data: JSON.stringify(datas),
+                data_type: 'json',
+                cache: false,
+                type: 'POST',
+                async: false
+
+            }).done(function (response) {
+                /*if(response && response.success)
+                {*/
+                $("#"+idAdresse).remove();
+                notify({
+                    message: 'L\'adresse à été supprimée.',
+                    color: 'success' // or 'success'
+                });
+                /*}
+                else
+                {
+                    alert('L\'activite n\'a pas pu être supprimé');
+                   // DevExpress.ui.notify("L'activité n'a pas été supprimée, merci de réessayer.", "error");
+                }*/
+
+
+            }).fail(function (){
+                //alert('La requête a échouée');
+                notify({
+                    message: 'L\'adresse n\a  pas été supprimée.',
+                    color: 'danger' // or 'success'
+                });
+
+            })
+
+        }
+
+    })
+</script>
 {% endblock %}

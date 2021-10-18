@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="adresse-form">
+    <div class="adresse-titre">
+        <h2>Modifier votre profil</h2>
+    </div>
+
+    <div class="adresse-form-inputs">
+        {{ form_start(userForm) }}
+        <div class="adresse">
+            {{ form_errors(userForm.nom)}}
+            {{ form_label(userForm.nom) }}
+            {{ form_widget(userForm.nom) }}
+
+            {{ form_errors(userForm.prenom)}}
+            {{ form_label(userForm.prenom) }}
+            {{ form_widget(userForm.prenom) }}
+
+            {{ form_errors(userForm.email)}}
+            {{ form_label(userForm.email) }}
+            {{ form_widget(userForm.email) }}
+
+            {{ form_errors(userForm.password)}}
+            {{ form_label(userForm.password) }}
+            {{ form_widget(userForm.password) }}
+
+            {{ form_errors(userForm.confirmPassword)}}
+            {{ form_label(userForm.confirmPassword) }}
+            {{ form_widget(userForm.confirmPassword) }}
+
+            <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+        </div>
+        {{ form_end(userForm) }}
+    </div>
+    {% endblock %}
+
+    {% block title %}
+        Modifier profil| {{ parent() }}
+    {% endblock %}
+

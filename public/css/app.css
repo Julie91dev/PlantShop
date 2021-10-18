@@ -86,7 +86,41 @@ nav a{
     color: black;
 }
 
+/********* FOOTER ************/
+.footer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: 50px;
+    border-top: #AAAAAA solid 2px;
+    padding-top: 5px;
+}
 
+.information{
+    padding: 5px 10px;
+}
+
+.entrepot{
+    padding: 5px 10px;
+}
+
+.contact{
+     padding: 5px 10px;
+}
+.copy{
+    text-align: center;
+}
+.information h6,
+.entrepot h6,
+.contact h6 {
+    font-size: 18px;
+    font-weight: bold;
+}
+.entrepot a,
+.entrepot a:hover{
+    color: black;
+    text-decoration: none;
+}
 /********** Liste et detail article **********/
 
 img {
@@ -160,6 +194,9 @@ article {
     text-align: center;
     font-size: 32pt;
     color: #5eb5e0;
+}
+.btn-detail{
+    justify-content: space-between;
 }
 
 
@@ -387,46 +424,167 @@ form button{
 }
 
 /* The Modal (background) */
-.modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+.overlay {
+    position: fixed;
+    left: 0px;
+    top:0px;
+    background-color: rgba(0,0 ,0 , 0.5);
+    width: 100%;
+    height: 100%;
+    z-index:1;
+    display:none;
 }
-
+.popup{
+    margin: 10% auto;
+    width : 70%;
+    background-color: rgb(243, 243, 243);
+    padding: 1em;
+    box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+}
+.close {
+    float: right;
+    font-size:16pt;
+    cursor: pointer;
+    color: rgb(26, 26, 26);
+}
+.myBtnChoix{
+    margin-left: 10px;
+    background: transparent;
+    border: none;
+    color: blue;
+}
 /* Modal Content/Box */
 .modal-content {
-    background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
+    border: blue 5px solid;
+    /*background-color: #fefefe;
+    margin: 15% auto; !*!* 15% from the top and centered *!*!
     padding: 20px;
-    border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
+   !* border: 1px solid #888;*!
+    width: 50%*/; /* Could be more or less, depending on screen size */
+
+
 }
 
-/* The Close Button */
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
+.modal-derniere-adresse{
+     margin-left: 15px;
+}
+.modal-derniere-adresse p {
+    line-height: 1rem;
+}
+.modal-toute-adresse{
+    margin-left: 15px;
 }
 
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
+/************ LIVRAISON **********/
+.livraison{
+    font-family: 'Merienda', cursive;
+    font-size: 28pt;
+    border-bottom: #AAAAAA solid 2px;
+    text-align: center;
+}
+.f-livraison{
+}
+.form-livraison{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.adresse-livraison{
+    padding: 5px 10px;
+}
+
+.adresse-facturation{
+    padding: 5px 10px;
+}
+.radio{
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    align-items: center;
+    padding: 5px 10px;
+    justify-content: space-around;
+}
+.input_choix{
+    display: flex;
+    flex-direction: column;
+}
+.choix{
+    text-align: center;
+    padding: 10px 30px;
+    background-color: ghostwhite;
+    border: 1px solid gray;
+    border-radius: 12px;
+
+}
+.choix:hover{
     cursor: pointer;
 }
+.p-facturation{
+    padding: 5px 10px;
+    text-align: left;
+    margin-left: 10px;
+    font-size: 18px;
+    margin-top: 5px;
+}
 
+.valider-livraison{
+    text-align: center;
+    margin-top: 10px;
+}
+.valider-livraison button
+{
+    padding: 20px 40px;
+    border-radius: 12px;
+    background-color: palegreen;
+    color: black;
+    font-size: 22px;
+}
+.ou{
+    text-align: center;
+    margin-top: -25px;
+}
+.valider-livraison a{
+    padding: 10px 30px;
+    border-radius: 12px;
+    background-color: lightblue;
+    margin-bottom: 10px;
+}
 
-
-
+/************ VALIDER PANIER ********/
+.form-payer{
+    align-items: end;
+    text-align: end;
+}
+.payer{
+    padding: 20px 40px;
+    border-radius: 12px;
+    background-color: palegreen;
+    color: black;
+    font-size: 22px;
+}
+.btn-retour-payer{
+    vertical-align: center;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+.btn-retour{
+    padding: 10px 30px;
+    border-radius: 12px;
+    background-color: lightblue;
+    font-size: 20px;
+    color: black;
+}
+.btn-retour:hover{
+    text-decoration: none;
+    color: black;
+}
+.retour-payer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
 
 .flash{
     padding: 20px;
@@ -435,7 +593,7 @@ form button{
     margin: 1rem 0;
     border-radius: 5px;
 }
-.flash-success {background-color: lawngreen}
+.flash-success {background-color: palegreen}
 
 @media screen and (min-width: 700px) {
     .serie-details {

@@ -1,0 +1,261 @@
+html, body{
+    /*border: yellow 2px solid;*/
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+.facture{
+    /*border: black 2px solid;*/
+    height: 100%;
+
+}
+.facture-premiere{
+    /*border: darkviolet 5px solid;*/
+    display: flex;
+    flex-direction: column;
+    /*flex-wrap: wrap;
+    justify-content: space-between;*/
+}
+.titre-facture{
+    /*border: lightcoral 2px solid;*/
+    position: relative;
+}
+.titre-facture h1{
+    color:#0088cc;
+    font-size:50px;
+}
+.entete{
+    /*border: blue 2px solid;*/
+    position: absolute;
+    top:15px;
+    right:75px;
+    text-align:center;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+#enTete tr td{
+    text-align: center;
+}
+.entete-titre {
+    color:#0088cc;
+    font-weight:bold;
+    font-size:24px;
+    /*border: red 2px solid;*/
+    margin-right: 50px;
+    margin-left: auto;
+
+}
+.coordonnes{
+    /*border: orange 2px solid;*/
+    /*float:left;*/
+    margin-top:50px;
+    margin-left:550px;
+    margin-right: 50px;
+}
+.coordonnes ul {
+    list-style:none;
+}
+#coordonnes li {
+    height:25px;
+    font-size: 18px;
+}
+.entity{
+    /*border: blue 2px solid;*/
+    margin-top: 50px;
+    text-align: center;
+}
+#entity {
+    /*border: red 2px solid;*/
+    width: 100%;
+}
+#entity td {
+    height:45px;
+    border-bottom:1px solid #0088cc;
+
+}
+.total{
+    margin-top: 10px;
+}
+#total{
+    float:right;
+    margin-left:495px;
+    border-bottom:1px solid #0088cc;
+    border-right:1px solid #0088cc;
+    border-left:1px solid #0088cc;
+}
+
+#total td {
+    height:20px;
+}
+.footer{
+    /*border: red 2px solid;*/
+    width: 100%;
+    margin-top: 30px;
+    text-align: center;
+    line-height:25px;
+    position: fixed;
+    padding: 10px 10px 10px 10px;
+    bottom: 0;
+    left: 0;
+}
+.color {
+    color:#0088cc;
+}
+.strong {
+    font-weight:bold;
+}
+/*
+h1{
+    border: blue 2px solid;
+    position:absolute;
+    color:#0088cc;
+    font-size:50px;
+}
+#enTete{
+    border: red 2px solid;
+    position:absolute;
+    top:5px;
+    right:50px;
+    text-align:center;
+}
+#enTete h2 {
+    color:#0088cc;
+    font-weight:bold;
+    font-size:20px;
+}
+#coordonnes{
+    border: blue 2px solid;
+    float:left;
+    margin-top:150px;
+    margin-left:650px;
+    list-style:none;
+}
+#coordonnes li {
+    height:20px;
+}
+#entity{
+    border: green 2px solid;
+    float:left;
+    margin-top:100px;
+    text-align:center;
+}
+
+#entity td {
+    height:45px;
+    border-bottom:1px solid #0088cc;
+
+}
+
+#total{
+    !*border: orangered 2px solid;
+    *!float:right;
+    margin-left:495px;
+    border-bottom:1px solid #0088cc;
+    border-right:1px solid #0088cc;
+    border-left:1px solid #0088cc;
+}
+
+#total td {
+    height:20px;
+}
+#footer{
+   !* border: darkviolet 2px solid;*!
+    position:absolute;
+    bottom:0;
+
+    width:100%;
+    text-align:center;
+    line-height:25px;
+}
+.color {
+    color:#0088cc;
+}
+.center {
+    text-align:center;
+}
+
+*/
+
+
+
+/*
+h1 {
+    position:absolute;
+    color:#0088cc;
+    font-size:50px;
+}
+
+.center {
+    text-align:center;
+}
+
+.color {
+    color:#0088cc;
+}
+
+.strong {
+    font-weight:bold;
+}
+.min {
+    font-size:10px;
+}
+
+img {
+    position:absolute;
+    top:80px;
+    left:30px;
+}
+
+ul#coordonnes {
+    float:left;
+    margin-top:30px;
+    margin-left:400px;
+    list-style:none;
+}
+
+ul#coordonnes li {
+    height:20px;
+}
+
+table#enTete {
+    position:absolute;
+    top:5px;
+    right:330px;
+    text-align:center;
+}
+
+table#enTete h1 {
+    color:#0088cc;
+    font-weight:bold;
+    font-size:20px;
+}
+
+table#entity {
+    float:left;
+    margin-top:30px;
+    text-align:center;
+}
+
+table#entity td {
+    height:45px;
+    border-bottom:1px solid #0088cc;
+}
+
+table#total {
+    float:right;
+    margin-left:495px;
+    border-bottom:1px solid #0088cc;
+    border-right:1px solid #0088cc;
+    border-left:1px solid #0088cc;
+}
+
+table#total td {
+    height:20px;
+}
+
+#footer {
+    position:absolute;
+    bottom:0px;width:100%;
+    text-align:center;
+    line-height:25px;
+}*/

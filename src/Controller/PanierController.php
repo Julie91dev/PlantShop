@@ -2,15 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Commande;
-use App\Repository\AdresseRepository;
-use App\Repository\ArticleRepository;
-use App\Repository\CategorieRepository;
-use App\Repository\CommandeRepository;
 use App\Service\Categorie\CategorieService;
 use App\Service\Panier\PanierService;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,30 +15,14 @@ class PanierController extends AbstractController
 
 
     /**
+     * Affichage du panier
      * @Route("/panier", name="panier")
      */
-    public function index(PanierService $panierService, CategorieService $categorieService): Response
+    public function index(PanierService $panierService,
+                          CategorieService $categorieService): Response
     {
         $categorie = $categorieService->getCategorie();
 
-       /* $panier = $session->get('panier', []);
-        $panierAvecData = [];
-        $total= 0;
-
-        foreach ($panier as $id => $quantite){
-
-            $produit =  $articleRepository->find($id);
-            $panierAvecData[] = [
-                'produit' => $produit,
-                'quantite' => $quantite
-            ];
-            $totalItem = $produit->getPrix() * $quantite;
-            $total += $totalItem;
-          //  dd($panierAvecData);
-
-        }*/
-
-       // $session->set('panier', $panierAvecData);
         $panierAvecData = $panierService->getPanier();
         $total = $panierService->getTotalPanier();
 
@@ -61,18 +38,10 @@ class PanierController extends AbstractController
      * Ajouter un produit au panier
      * @Route("/panier/add/{id}", name="panier_add")
      */
-    public function add(int $id, PanierService $panierService): Response
+    public function add(int $id,
+                        PanierService $panierService): Response
     {
 
-       /* $panier= $session->get('panier', []);
-
-        if(!empty($panier[$id])){
-            $panier[$id]++;
-        } else {
-            $panier[$id] = 1;
-        }
-
-        $session->set('panier', $panier);*/
         $panierService->addPanier($id);
 
         return $this->redirectToRoute('panier');
@@ -83,41 +52,20 @@ class PanierController extends AbstractController
      * @param int $id
      * @Route ("/panier/delete/{id}", name="panier_delete")
      */
-    public function delete(int $id, PanierService $panierService)
+    public function delete(int $id,  PanierService $panierService)
     {
 
-
-   /*     $panier = $session->get('panier', []);
-
-        if (!empty($panier[$id])){
-            unset($panier[$id]);
-        }
-
-        $session->set('panier', $panier);*/
         $panierService->deleteProduitPanier($id);
         return $this->redirectToRoute("panier");
     }
 
     /**
-     * Enleve une quantite d'un produit
+     * Enleve une quantite d'un produit du panier
      * @param int $id
      * @Route ("/panier/remove/{id}", name="panier_remove")
      */
-    public function remove(int $id,PanierService $panierService)
+    public function remove(int $id, PanierService $panierService)
     {
-
-
-        /*$panier = $session->get('panier', []);
-
-        if (!empty($panier[$id])){
-            if ($panier[$id] > 1){
-                $panier[$id]--;
-            }else {
-                unset($panier[$id]);
-            }
-        }
-
-        $session->set('panier', $panier);*/
         $panierService->removeQuantityPanier($id);
 
         return $this->redirectToRoute("panier");
@@ -129,8 +77,6 @@ class PanierController extends AbstractController
      */
     public function deleteAll(SessionInterface $session)
     {
-
-
         $session->remove("panier");
 
         return $this->redirectToRoute("panier");
@@ -143,7 +89,6 @@ class PanierController extends AbstractController
     public function livraison(CategorieService $categorieService, PanierService $panierService)
     {
         $categorie = $categorieService->getCategorie();
-
 
         if (!empty($this->getUser())){
 
@@ -164,87 +109,23 @@ class PanierController extends AbstractController
 
 
     }
-    /**
-     * Choix de la livraison en Session
-     * @Route("/panier/livraison/setLivraison", name="panier_set_livraison")
-     */
-    public function setLivraisonOnSession(Request $request, SessionInterface $session)
-    {
-        /*if (!$session->has('adresse')){
-            $session->set('adresse', []);
-
-        }
-        $adresse = $session->get('adresse');
-
-        if ($request->get('livraison') != null && $request->get('facturation') != null ){
-
-            $adresse['livraison'] = $request->get('livraison');
-            $adresse['facturation'] = $request->get('facturation');
-
-
-        }else{
-            return $this->redirectToRoute("panier_livraison");
-        }
-
-        $session->set('adresse', $adresse);
-        return $this->redirectToRoute("panier_validation");*/
-    }
 
     /**
      * Valider le panier
      * @Route ("/panier/validation", name="panier_validation")
      */
-    public function validerPanier(CategorieService $categorieService,
-                                  PanierService $panierService,
-                                  Request $request)
+    public function validerPanier(CategorieService $categorieService, PanierService $panierService, Request $request)
     {
 
         $categorie = $categorieService->getCategorie();
-        /*$client = $this->getUser()->getId();
-        if ($request->getMethod() == 'POST') {
-            $this->setLivraisonOnSession($request, $session);
-        }
-        $prepareCommande = $commandeController->prepareCommande($session, $commandeRepository, $entityManager, $adresseRepository, $articleRepository);
-        $commande = $commandeRepository->find($prepareCommande->getContent());*/
-      /*  $adresse = $session->get('adresse');
 
-
-        $livraisonId= $adresse['livraison'];
-        $facturationId= $adresse['facturation'];
-
-        $panier= $session->get('panier', []);
-        $livraison = $adresseRepository->find($livraisonId);
-        $facturation = $adresseRepository->find($facturationId);
-
-
-
-
-        $panierAvecData = [];
-        $total= 0;
-
-        foreach ($panier as $id => $quantite) {
-            $produit = $articleRepository->find($id);
-            dump("produit");
-            dump($produit);
-            $panierAvecData[] = [
-                'produit' => $produit,
-                'quantite' => $quantite
-            ];
-            $totalItem = $produit->getPrix() * $quantite;
-            $total += $totalItem;
-
-        }*/
         $commande = $panierService->validerPanier($request);
 
         return $this->render('panier/validerPanier.html.twig', [
             'controller_name' => 'PanierController',
             'categorie' => $categorie,
             'commande' => $commande
-            /*'panier' => $panier,
-            'livraison' => $livraison,
-            'facturation' => $facturation,
-            'items' => $panierAvecData,
-            'total' => $total*/
+
         ]);
     }
 }

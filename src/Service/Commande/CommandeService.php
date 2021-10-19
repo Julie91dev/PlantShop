@@ -35,6 +35,10 @@ class CommandeService
         $this->security = $security;
     }
 
+    /**
+     * Validation de la commande
+     * @param $id
+     */
     public function validationCommande($id)
     {
         $commande = $this->commandeRepository->find($id);
@@ -53,6 +57,11 @@ class CommandeService
 
     }
 
+    /**
+     * Création d'un tableau multidimentionnel "Commande" afin de récupérer toutes les informations nécessaire a l'etablissement d'une facture
+     * @return array
+     * @throws \Exception
+     */
     public function facture()
     {
         $token = bin2hex(random_bytes(20));
@@ -84,12 +93,8 @@ class CommandeService
                 'images' => $produit->getImages()
             ];
 
-         /*   dump("tableau de produits");
-            dump($produits);
-            dump($prix);*/
+
         }
-       /* dump("verification du tableau commande");
-        dump($commande);*/
 
         $commande['livraison'] = [  'prenom' => $livraison->getPrenom(),
             'nom' => $livraison->getNom(),
@@ -115,6 +120,11 @@ class CommandeService
         return $commande;
     }
 
+    /**
+     * Permet d'enregistrer la commande en base de donnée
+     * @return Commande|null
+     *
+     */
     public function prepareCommande()
     {
         if (!$this->session->has('commande')){
@@ -139,6 +149,10 @@ class CommandeService
 
     }
 
+    /**
+     * Permet d'incrémenter automatiquement la variable référence
+     * @return int|string|null
+     */
     public function reference()
     {
         $reference = $this->commandeRepository->findOneBy(array('valider' => 1), array('id' => 'DESC'),1,1);

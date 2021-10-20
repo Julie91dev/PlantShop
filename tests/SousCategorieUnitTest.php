@@ -2,6 +2,7 @@
 
 namespace App\Tests;
 
+use App\Entity\Article;
 use App\Entity\SousCategorie;
 use PHPUnit\Framework\TestCase;
 
@@ -39,5 +40,19 @@ class SousCategorieUnitTest extends TestCase
         $this->assertEmpty($sousCategorie->getNom());
         $this->assertEmpty($sousCategorie->getId());
 
+    }
+
+    public function testAddGetRemoveArticle()
+    {
+        $sousCategorie = new SousCategorie();
+        $article = new Article();
+
+        $this->assertEmpty($sousCategorie->getArticles());
+
+        $sousCategorie->addArticle($article);
+        $this->assertContains($article, $sousCategorie->getArticles());
+
+        $sousCategorie->removeArticle($article);
+        $this->assertEmpty($sousCategorie->getArticles());
     }
 }

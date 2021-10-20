@@ -244,8 +244,88 @@ article {
 
 }
 
-/********* LOGIN ****************/
+/********* LOGIN , REGISTER****************/
 
+.connexion-form,
+.register-form{
+    /*border: red solid 3px;*/
+    margin-top: 15px;
+}
+
+.connexion-titre,
+.register-titre {
+    /*border: blue solid 3px;*/
+}
+
+.connexion-titre h2,
+.register-titre h2{
+    font-family: 'Merienda', cursive;
+    font-size: 28pt;
+    border-bottom: #AAAAAA solid 2px;
+    text-align: center;
+}
+
+.connexion-form-inputs,
+.register-form-inputs{
+    /*border: darkviolet solid 3px;*/
+}
+
+.connexion,
+.register{
+   /* border: green solid 3px;*/
+    display: flex;
+    flex-direction: column;
+    width: 600px;
+    margin-right: auto;
+    margin-left: auto;
+}
+.mdp-inscription{
+    /*border: orangered solid 3px;*/
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 600px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 5px;
+}
+form .social-media{
+    margin-top: 15px;
+    display: flex;
+    flex-wrap:wrap;
+    justify-content:center;
+
+}
+form .social-media p{
+    padding: 5px;
+    height: 40px;
+    width: 40px;
+    margin-left: 10px;
+    border-radius: 100%;
+    border: 1px solid #545454;
+    text-align: center;
+    align-items: center;
+    cursor:pointer;
+    color: #545454;
+}
+form p.choose-email{
+    text-align:center;
+}
+
+.connexion input[type='email'],
+.connexion input[type='password'],
+.register input[type='text']{
+    border: 1px black solid;
+    border-radius: inherit;
+    background-color: inherit;
+    padding: inherit;
+
+}
+.connexion-label,
+.register-label{
+    font-weight: bold;
+}
+/*
 .login-form{
     display: flex;
     flex-direction: row;
@@ -328,6 +408,7 @@ form button{
     margin-top: 10px;
 }
 
+*/
 
 
 /********** REGISTER *************/

@@ -3,53 +3,55 @@
 {% block title %}Connexion! | {{ parent() }}{% endblock %}
 
 {% block body %}
-    <div class="login-form">
+<div class="connexion-form">
+    <div class="connexion-titre">
+        <h2 >Se connecter</h2>
+    </div>
+
+    <div class="connexion-form-inputs">
         <form method="post">
+            <div class="connexion">
 
-           {# <div class="img-login">
-            <img src="{{ asset('img/back1.jpg') }}" alt="photo coquelicot"  title="connexion" class="">
-            </div>#}
+                <div class="social-media">
+                    <p><i class="fab fa-google"></i></p>
+                    <p><i class="fab fa-youtube"></i></p>
+                    <p><i class="fab fa-facebook-f"></i></p>
+                    <p><i class="fab fa-twitter"></i></p>
+                </div>
+                <p class="choose-email">ou utiliser mon adresse e-mail :</p>
+                {% if error %}
+                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
+                <div class="inputs">
+                    <label for="inputEmail">Email</label>
+                    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+                    <label for="inputPassword">Password</label>
+                    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
 
-            <h2 class="">Se connecter</h2>
-
-            <div class="social-media">
-                <p><i class="fab fa-google"></i></p>
-                <p><i class="fab fa-youtube"></i></p>
-                <p><i class="fab fa-facebook-f"></i></p>
-                <p><i class="fab fa-twitter"></i></p>
-            </div>
-            <p class="choose-email">ou utiliser mon adresse e-mail :</p>
-            {% if error %}
-                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-            {% endif %}
-            <div class="inputs">
-                <label for="inputEmail">Email</label>
-                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-                <label for="inputPassword">Password</label>
-                <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
-
-                <input type="hidden" name="_csrf_token"
-                       value="{{ csrf_token('authenticate') }}"
-                >
-            </div>
-
-
-                <div class="checkbox mb-3">
-                    <label>
-                        <input type="checkbox" name="_remember_me"> Remember me
-                    </label>
+                    <input type="hidden" name="_csrf_token"
+                           value="{{ csrf_token('authenticate') }}"
+                    >
                 </div>
 
-            <div align="center">
-                <button class="btn btn-lg btn-primary" type="submit">
-                    Connexion
-                </button>
-            </div>
-            <p class="inscription">Je n'ai pas de <span>compte</span>. <a href="{{ path('app_register') }}" title="Inscription">  <span>Inscription</span> </a></p>
-        </form>
-        <div>
-            <a href="{{ path('app_forgot_password_request') }}" title="Mot de passe oublié">Mot de passe oublié?</a>
-        </div>
 
+                    <div class="checkbox mb-3">
+                        <label>
+                            <input type="checkbox" name="_remember_me"> Se souvenir de moi
+                        </label>
+                    </div>
+
+                <div align="center">
+                    <button class="btn btn-lg btn-primary" type="submit">
+                        Connexion
+                    </button>
+                </div>
+
+            </div>
+        </form>
+        <div class="mdp-inscription">
+            <a href="{{ path('app_forgot_password_request') }}" title="Mot de passe oublié">Mot de passe oublié?</a>
+            <p class="inscription">Je n'ai pas de <span>compte</span>. <a href="{{ path('app_register') }}" title="Inscription">  <span>Inscription</span> </a></p>
+        </div>
     </div>
+</div>
 {% endblock %}

@@ -9,21 +9,20 @@
     </div>
 
     <div class="register-form-inputs">
-    {{ form_start(registrationForm) }}
-    <div class="inputs">
-        {{ form_label(registrationForm.nom) }}
-        {{ form_widget(registrationForm.nom) }}
-        {{ form_label(registrationForm.prenom) }}
-        {{ form_widget(registrationForm.prenom) }}
-        {{ form_label(registrationForm.email) }}
-        {{ form_widget(registrationForm.email) }}
-        {{ form_label(registrationForm.plainPassword) }}
-        {{ form_widget(registrationForm.plainPassword) }}
+        {{ form_start(registrationForm) }}
+            <div class="register">
+                {{ form_label(registrationForm.nom) }}
+                {{ form_widget(registrationForm.nom) }}
+                {{ form_label(registrationForm.prenom) }}
+                {{ form_widget(registrationForm.prenom) }}
+                {{ form_label(registrationForm.email) }}
+                {{ form_widget(registrationForm.email) }}
+                {{ form_label(registrationForm.plainPassword) }}
+                {{ form_widget(registrationForm.plainPassword) }}
 
-
-
-        <button type="submit" class="btn btn-lg btn-primary">Inscription</button>
+                <button type="submit" class="btn btn-lg btn-primary">Inscription</button>
+            </div>
+        {{ form_end(registrationForm) }}
     </div>
-    {{ form_end(registrationForm) }}
-    </div>
+</div>
 {% endblock %}

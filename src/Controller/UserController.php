@@ -43,7 +43,7 @@ class UserController extends AbstractController
 
         $commandes = $commandeRepository->findBy(['client' => $this->getUser()]);
 
-        return $this->render('user/profile/commande.html.twig', [
+        return $this->render('user/commande/facture.html.twig', [
             'controller_name' => 'UserController',
             'categorie' => $categorie,
             'commande' => $commandes

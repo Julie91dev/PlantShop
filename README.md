@@ -1,4 +1,5 @@
 # PlantShop
+##Projet en cours
 Projet perso de site eCommerce de plante
 Le but étant d'apprendre et de pratiquer le framework symfony
 
@@ -6,7 +7,7 @@ Le but étant d'apprendre et de pratiquer le framework symfony
 
 1. Naviguer vers votre dossier web, ici utilisation de WampServer
 
-	`cd /Wamp64/www/`
+	 cd /Wamp64/www/
 
 2. Cloner le projet
 
@@ -31,6 +32,8 @@ Le but étant d'apprendre et de pratiquer le framework symfony
 
 7.Importer le fichier 'plantshop-data.sql' dans la base donnée
 
+8. Naviguer vers `http://localhost/PlantShop/public/`
+
 
 ### Comptes
 
@@ -44,3 +47,9 @@ mdp: test123
 mail: admin@admin.fr
 
 mdp: adminadmin
+
+
+### Tests
+
+Pour lancer des tests unitaires et fonctionnels définis dans le répertoire /tests
+`php bin/phpunit`

@@ -3,6 +3,7 @@
 namespace App\Tests\ControllerTest;
 
 
+use App\Repository\CommandeRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -29,19 +30,22 @@ class UserControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/profile/commande');
 
         $this->assertResponseIsSuccessful();
-//        $this->assertSelectorTextContains('h2', 'Vos commandes');
+       $this->assertSelectorTextContains('h2', 'Vos commandes');
     }*/
-
-     public function testUserProfileFacture(): void
+  /*   public function testUserProfileFacture(): void
     {
         $client = static::createClient();
         $userRepository = static::getContainer()->get(UserRepository::class);
         $testUser = $userRepository->findOneBy(['email' => 'test@test.fr']);
         $client->loginUser($testUser);
+
+        $commandeRepository = static::getContainer()->get(CommandeRepository::class);
+        $facture = $commandeRepository->byFacture($testUser);
+
         $crawler = $client->request('GET', '/profile/facture');
 
         $this->assertResponseIsSuccessful();
-    }
+    }*/
 
     public function testUserProfileMonProfil(): void
     {

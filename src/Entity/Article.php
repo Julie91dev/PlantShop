@@ -4,9 +4,12 @@ namespace App\Entity;
 
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * @ORM\Entity(repositoryClass=ArticleRepository::class)
+ * @Vich\Uploadable()
  */
 class Article
 {
@@ -32,6 +35,14 @@ class Article
      */
     private $images;
 
+
+
+    /**
+     * @Vich\UploadableField(mapping="article_image", fileNameProperty="images")
+     * @var File
+     */
+    private $imageFile;
+
     /**
      * @ORM\ManyToOne(targetEntity=Categorie::class, inversedBy="articles")
      * @ORM\JoinColumn(nullable=false)
@@ -47,6 +58,17 @@ class Article
      * @ORM\ManyToOne(targetEntity=SousCategorie::class, inversedBy="articles")
      */
     private $sousCategorie;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     *
+     */
+    private $createdAt;
+    /**
+     * @ORM\Column(type="datetime")
+     *
+     */
+    private $updatedAt;
 
     public function getId(): ?int
     {
@@ -88,6 +110,56 @@ class Article
 
         return $this;
     }
+    /**
+     * @return File
+     */
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * @param File|null $imageFile
+     */
+    public function setImageFile(File $imageFile = null): void
+    {
+        $this->imageFile = $imageFile;
+        if (null !== $imageFile){
+            $this->updatedAt = new \DateTime();
+        }
+    }
+    /**
+     * @return mixed
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param mixed $createdAt
+     */
+    public function setCreatedAt($createdAt): void
+    {
+        $this->createdAt = new \DateTime();;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param mixed $updatedAt
+     */
+    public function setUpdatedAt($updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
+    }
+
 
     public function getCategorie(): ?Categorie
     {
@@ -125,6 +197,6 @@ class Article
         return $this;
     }
     public function __toString(){
-        return $this->article;
+        return $this->nom;
     }
 }

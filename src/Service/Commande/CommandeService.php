@@ -43,8 +43,9 @@ class CommandeService
     {
         $commande = $this->commandeRepository->find($id);
 
-        if (!$commande || $commande->getValider() == 1){
-            throw $this->createNotFoundException('La commande n\'existe pas');
+       if (!$commande || $commande->getValider() == 1){
+            throw new \Exception('La commande n\'existe pas');
+           // throw $this->createNotFoundException('La commande n\'existe pas');
         }
 
         $commande->setValider(1);

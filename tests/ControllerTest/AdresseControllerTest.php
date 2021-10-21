@@ -76,4 +76,29 @@ class AdresseControllerTest extends WebTestCase
         $this->assertSelectorTextContains('h6', '2 rue du Chat');
 
     }
+
+/*    public function testgetAdresse()
+    {
+
+        $client = static::createClient();
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        $testUser = $userRepository->findOneBy(['email' => 'test@test.fr']);
+        $client->loginUser($testUser);
+        $data = ['idAdresse' => 4];
+        $crawler = $client->xmlHttpRequest('POST', '/profile/adresseId', ['data' => $data]);
+
+        $this->assertResponseIsSuccessful();
+    }*/
+
+   /* public function testdeleteAdresse()
+    {
+        $client = static::createClient();
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        $testUser = $userRepository->findOneBy(['email' => 'test@test.fr']);
+        $client->loginUser($testUser);
+
+        $crawler = $client->xmlHttpRequest('POST', '/profile/adresse/delete', ['idAdresse' => 4]);
+
+        $this->assertResponseIsSuccessful();
+    }*/
 }

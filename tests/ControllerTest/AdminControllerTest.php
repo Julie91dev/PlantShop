@@ -5,20 +5,18 @@ namespace App\Tests\ControllerTest;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class ResetPasswordControllerTest extends WebTestCase
+class AdminControllerTest extends WebTestCase
 {
-    public function testPageResetPassword(): void
+    public function testAccesPageAdmin(): void
     {
-
         $client = static::createClient();
         $userRepository = static::getContainer()->get(UserRepository::class);
-        $testUser = $userRepository->findOneBy(['email' => 'test@test.fr']);
+        $testUser = $userRepository->findOneBy(['email' => 'admin@admin.fr']);
         $client->loginUser($testUser);
-        $crawler = $client->request('GET', '/reset-password');
 
+        $crawler = $client->request('GET', '/admin');
+       // $this->assertResponseStatusCodeSame(403);
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h2', 'Mot de passe oublié');
+        $this->assertSelectorTextContains('h1', 'Administration');
     }
-
-
 }

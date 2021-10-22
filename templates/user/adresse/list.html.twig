@@ -17,8 +17,8 @@
                     <h6 class="card-subtitle mb-2 text-muted">{{ adresse.numero }} {{ adresse.rue }}</h6>
                     <p class="card-text">{{ adresse.ville }} {{ adresse.cp }}</p>
                     <p class="card-text">Numéro de téléphone {{ adresse.telephone }}</p>
-                    <a href="{{ path('adresse_update', {'id':  adresse.id }) }}" class="card-link">Modifier</a>
-                    <button style="" class="delete" value="{{ adresse.id }}">Supprimer</button>
+                    <a href="{{ path('adresse_update', {'id':  adresse.id }) }}" class="btn btn-outline-info">Modifier</a>
+                    <button style="" class="delete btn btn-outline-danger" value="{{ adresse.id }}">Supprimer</button>
 {#                    <a id="delete" data-adresse="{{ adresse.id }}" class="card-link">Supprimer</a>#}
                 </div>
             </div>

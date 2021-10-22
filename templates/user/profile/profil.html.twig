@@ -3,24 +3,32 @@
 {% block title %}Mon profil! | {{ parent() }}{% endblock %}
 
 {% block body %}
-    <h2>Mon profil</h2>
-    <p>Nom et prénom</p>
-    <p>{{app.user.nom}} {{app.user.prenom}}</p>
-    <p>Email</p>
-    <p>{{app.user.email}}</p>
-    <p>Mot de passe</p>
-    <p>***********</p><a href="{{ path('profile_edit', {'id': app.user.id}) }}">Mofidier</a>
-    <p>***********</p><a href="{{ path('profile_delete', {'id': app.user.id}) }}">Supprimer mon compte</a>
-    <p>Mon adresse principal</p>
-    {% if adresse %}
-    <p>{{adresse.numero}} {{adresse.rue}}</p>
-    <p>{{adresse.cp}} {{adresse.ville}}</p>
+    <h2 class="mon-profil">Mon profil</h2>
+    <section class="profil">
 
-    <p>Numéro de téléphone</p>
-    <p>{{adresse.telephone}}</p>
-    {%  else %}
+        <article class="profil-connexion">
+            <p><strong>Nom et prénom :</strong> {{app.user.nom | upper}} {{app.user.prenom}}</p>
+            <p><strong>Email:</strong> {{app.user.email}}</p>
+            <p><strong>Mot de passe:</strong> ***********</p>
+            <div class="modif-sup_profil">
+            <a href="{{ path('profile_edit', {'id': app.user.id}) }}" class="btn-modifier" title="modifier profil">Mofidier</a><br>
+           <a href="{{ path('profile_delete', {'id': app.user.id}) }}" title="supprimer mon compte"><i class="bi bi-exclamation-octagon"></i> Supprimer mon compte</a>
+            </div>
+        </article>
+        <article class="profil-adresse">
+            <p><strong>Mon adresse principal</strong></p>
 
-    <p>Vous n'avez pas encore d'adresse enregistrée</p>
-    {% endif %}
-
+            {% if adresse %}
+                <p>{{adresse.numero}} {{adresse.rue}}<br>
+                {{adresse.cp}} {{adresse.ville}}<br>
+                Numéro de téléphone<br>
+                {{adresse.telephone}}</p>
+            <div class="modif-sup_profil">
+                <a href="{{ path('adresse_update', {'id': adresse.id}) }}" class="btn-modifier" title="modifier adresse principale">Mofidier mon adresse principale</a><br>
+            </div>
+            {%  else %}
+                <p>Vous n'avez pas encore d'adresse enregistrée</p>
+            {% endif %}
+        </article>
+    </section>
 {% endblock %}

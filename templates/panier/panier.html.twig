@@ -22,7 +22,7 @@
             <tbody>
                 {% for item in items %}
                 <tr class="">
-                    <td ><img class="img-panier" src="img/{{ item.produit.categorie.nom }}/{{ item.produit.images }}" alt="{{ item.produit.nom }}" title="{{ item.produit.nom }}"></td>
+                    <td ><img class="img-panier" src="{{ asset( vich_uploader_asset(item.produit, 'imageFile')) }}" alt="{{ item.produit.nom }}" title="{{ item.produit.nom }}"></td>
                     <td class="align-middle">{{ item.produit.nom }}</td>
                     <td class="align-middle">{{ item.produit.prix }}€</td>
                     <td class="align-middle">

@@ -3,7 +3,8 @@
 {% block body %}
     <div class="plante-details">
         <div>
-            <img src="{{ asset('img/'~article.categorie.nom~'/' ~ article.images ) }}" alt="{{ article.nom }}">
+         {#   <img src="{{ asset('img/'~article.categorie.nom~'/' ~ article.images ) }}" alt="{{ article.nom }}">#}
+            <img src="{{ asset(vich_uploader_asset(article, 'imageFile')) }}" alt="{{ article.nom }}">
         </div>
         <div class="plante-details-infos">
             <h2>{{ article.nom }}</h2>
@@ -27,7 +28,8 @@
 
         </div>
         <div>
-            <img src="{{ asset('img/'~article.categorie.nom~'/'~ article.images ) }}" alt="{{ article.nom }}">
+            {#<img src="{{ asset('img/'~article.categorie.nom~'/'~ article.images ) }}" alt="{{ article.nom }}">#}
+            <img src="{{ asset(vich_uploader_asset(article, 'imageFile')) }}" alt="{{ article.nom }}">
         </div>
     </div>
 {% endblock %}

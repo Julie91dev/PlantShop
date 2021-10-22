@@ -6,6 +6,7 @@ use App\Entity\Article;
 use App\Entity\Categorie;
 use App\Entity\SousCategorie;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\HttpFoundation\File\File;
 
 class ArticleUnitTest extends TestCase
 {
@@ -14,6 +15,7 @@ class ArticleUnitTest extends TestCase
         $article = new Article();
         $categorie = new Categorie();
         $sousCategorie = new SousCategorie();
+        $file = new File('public/img/article/areca.jpg');
 
         $article->setNom("nom");
         $article->setDescription("description");
@@ -21,6 +23,9 @@ class ArticleUnitTest extends TestCase
         $article->setPrix(2);
         $article->setCategorie($categorie);
         $article->setSousCategorie($sousCategorie);
+        $article->setCreatedAt(new \DateTime('2021-10-22 08:10:00.000000+0000'));
+        $article->setUpdatedAt(new \DateTime('2021-10-22 08:10:00.000000+0000'));
+        $article->setImageFile($file);
 
         $this->assertTrue($article->getNom() === "nom");
         $this->assertTrue($article->getDescription() === "description");
@@ -28,6 +33,8 @@ class ArticleUnitTest extends TestCase
         $this->assertTrue($article->getPrix() == 2);
         $this->assertTrue($article->getCategorie() === $categorie);
         $this->assertTrue($article->getSousCategorie() === $sousCategorie);
+
+        $this->assertTrue($article->getImageFile() === $file);
     }
 
     public function testIsFalse(): void
@@ -36,6 +43,9 @@ class ArticleUnitTest extends TestCase
         $article = new Article();
         $categorie = new Categorie();
         $sousCategorie = new SousCategorie();
+        $date = new \DateTime();
+        $file = new File('public/img/article/areca.jpg');
+
 
         $article->setNom("nom");
         $article->setDescription("description");
@@ -43,6 +53,9 @@ class ArticleUnitTest extends TestCase
         $article->setPrix(2);
         $article->setCategorie($categorie);
         $article->setSousCategorie($sousCategorie);
+        $article->setCreatedAt($date);
+        $article->setUpdatedAt($date);
+        $article->setImageFile($file);
 
         $this->assertFalse($article->getNom() === "false");
         $this->assertFalse($article->getDescription() === "false");
@@ -50,6 +63,10 @@ class ArticleUnitTest extends TestCase
         $this->assertFalse($article->getPrix() === 3);
         $this->assertFalse($article->getCategorie() === new  Categorie());
         $this->assertFalse($article->getSousCategorie() === new SousCategorie());
+        $this->assertFalse($article->getCreatedAt() == new \DateTime());
+        $this->assertFalse($article->getUpdatedAt() == new \DateTime());
+        $this->assertFalse($article->getImageFile() === new File('public/img/article/arrosoir.jpg'));
+
     }
 
     public function testIsEmpty(): void
@@ -64,7 +81,12 @@ class ArticleUnitTest extends TestCase
         $this->assertEmpty($article->getCategorie());
         $this->assertEmpty($article->getSousCategorie());
         $this->assertEmpty($article->getId());
+        $this->assertEmpty($article->getCreatedAt());
+        $this->assertEmpty($article->getUpdatedAt());
+        $this->assertEmpty($article->getImageFile());
     }
+
+
 
 
 }

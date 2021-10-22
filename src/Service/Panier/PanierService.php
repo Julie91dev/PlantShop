@@ -12,12 +12,12 @@ use Symfony\Component\Security\Core\Security;
 class PanierService
 {
     //TODO: Implémenter fonction
-    protected $session;
-    protected $articleRepository;
-    protected $adresseRepository;
-    protected $security;
-    protected $commandeService;
-    protected $commandeRepository;
+    protected SessionInterface $session;
+    protected ArticleRepository $articleRepository;
+    protected AdresseRepository $adresseRepository;
+    protected Security $security;
+    protected CommandeService $commandeService;
+    protected CommandeRepository $commandeRepository;
 
     public function __construct(SessionInterface $session,
                                 ArticleRepository $articleRepository,

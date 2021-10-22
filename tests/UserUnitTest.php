@@ -28,6 +28,7 @@ class UserUnitTest extends TestCase
         $this->assertTrue($user->getPassword() === "password");
         $this->assertTrue($user->getRoles() == ['ROLE_TEST']);
         $this->assertTrue($user->getUserIdentifier() === "test@test.fr");
+        $this->assertTrue($user->getUsername() === "test@test.fr");
     }
 
     public function testIsFalse(): void
@@ -46,6 +47,7 @@ class UserUnitTest extends TestCase
         $this->assertFalse($user->getEmail() === "false@test.fr");
         $this->assertFalse($user->getPassword() === "false");
         $this->assertFalse($user->getUserIdentifier() === "false@test.fr");
+        $this->assertFalse($user->getUsername() === "test@test.fr");
 
     }
 
@@ -59,6 +61,7 @@ class UserUnitTest extends TestCase
         $this->assertEmpty($user->getEmail());
         $this->assertEmpty($user->getUserIdentifier());
         $this->assertEmpty($user->getId());
+        $this->assertEmpty($user->getUsername());
     }
 
     public function testAddGetRemoveAdresse()

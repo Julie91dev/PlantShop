@@ -95,7 +95,7 @@ class PanierControllerTest extends WebTestCase
         $this->assertSelectorTextContains('h2', 'Livraison');
     }
 
-    public function testPanierValidation(): void
+   /* public function testPanierValidation(): void
     {
         $client = static::createClient();
 
@@ -103,12 +103,23 @@ class PanierControllerTest extends WebTestCase
         $testUser = $userRepository->findOneBy(['email' => 'test@test.fr']);
         $client->loginUser($testUser);
 
+        $adresse = ['facturation' => 'toto',
+            'livraison' => 'titi'];
+        $crawler = $client->request('POST', '/panier/validation',$adresse);
 
-        $crawler = $client->request('GET', '/panier/validation');
 
+        //$parametre = ['adresse' => ['facturation' => 'toto',
+        //    'livraison' => 'titi']];
+       // dd($adresse);
         $request = $client->getRequest();
-        $servicePanier = static::getContainer()->get(PanierService::class);
+
+
+        /*$test = $request->request->get('adresse');
+        $test1 = $request->toArray();
+        dd($test1);*/
+
+      /*  $servicePanier = static::getContainer()->get(PanierService::class);
         $test= $servicePanier->validerPanier($request);
         $this->assertResponseRedirects('/panier');
-    }
+    }*/
 }

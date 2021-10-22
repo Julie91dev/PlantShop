@@ -179,11 +179,13 @@ class UserController extends AbstractController
     {
         $categorie = $categorieService->getCategorie();
         $user = $userRepository->find($id);
+       
+        $this->container->get('security.token_storage')->setToken(null);
         $entityManager->remove($user);
         $entityManager->flush();
 
         $this->addFlash('success', 'Votre compte a été supprimé');
-        return $this->redirectToRoute('app_logout');
+        return $this->redirectToRoute('home');
 
     }
 }

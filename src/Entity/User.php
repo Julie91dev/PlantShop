@@ -55,12 +55,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $prenom;
 
     /**
-     * @ORM\OneToMany(targetEntity=Commande::class, mappedBy="client")
+     * @ORM\OneToMany(targetEntity=Commande::class, mappedBy="client", cascade={"remove"})
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $commandes;
 
     /**
-     * @ORM\OneToMany(targetEntity=Adresse::class, mappedBy="client")
+     * @ORM\OneToMany(targetEntity=Adresse::class, mappedBy="client", cascade={"remove"})
+     * @ORM\JoinColumn(onDelete="CASCADE")
      * @Groups("personne:read")
      */
     private $adresses;

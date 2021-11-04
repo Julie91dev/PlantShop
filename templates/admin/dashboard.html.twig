@@ -1,10 +1,81 @@
 {% extends '@EasyAdmin/layout.html.twig' %}
 
 {% block content %}
-    <div class="jumbotron">
-        <h1 class="display-4">Administration</h1>
-        <p class="lead"> Bienvenue dans l'interface d'administration de votre site internet</p>
+
+    <div class="conlainer">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="display-4">Administration</h1>
+                <p class="lead"> Bienvenue dans l'interface d'administration de votre site internet</p>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-5 alert-info">
+                <p><span class="display-6"> 0 </span> utilisateur inscrit aujourd'hui</p>
+                <p>Total utilisateurs inscrit : <span class="display-6"> 11 </span> </p>
+            </div>
+            <div class="col-1"></div>
+            <div class="col-5 alert-info">
+                <p><span class="display-6"> 0 </span> commandes passées aujourd'hui</p>
+                <p>Total commandes passées: <span class="display-6"> {{ countAllCommande['value'] }} </span> </p>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-12">
+                {% if commandesDuJour | length != null %}
+                    <h2>Commandes passées les 7 derniers jours</h2>
+                    <table class="table table-striped table-hover">
+                        <thead class="table-success">
+                            <tr>
+                                <th>Date</th>
+                                <th>Référence</th>
+                                <th>Prix Total</th>
+                                <th>Nom Prénom</th>
+                                <th>Détail</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for commande in commandesDuJour %}
+                                <tr>
+                                    <td>{{ commande.date | date('d-m-Y')}}</td>
+                                    <td>{{ commande.reference }}</td>
+                                    <td>{{ commande.commande.prix }}€</td>
+                                    {% if commande.client != null  %}
+                                        <td>{{ commande.client }}</td>
+                                    {% else %}
+                                        <td></td>
+                                    {% endif %}
+                                    <td>Détail</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+{#                            {{ dump(commande.commande.produit) }}#}
+{#                            <p>DAte de la commande </p>#}
+{#                           #}{# {% if commande.client.nom != null  %}#}
+{#                            <p>Client de la commande {{ commande.client.nom }} {{ commande.client.prenom }}</p>#}
+{#                            {% endif %}#}
+{#                            <p>Prix total {{ commande.commande.prix }}</p>#}
+{#                            <p>Detail de la commande :</p>#}
+{#                            <ul>#}
+{#                                {%  for item in commande.commande.produit %}#}
+{#                                   <li> {{ item.reference }} {{ item.prix }} {{ item.quantite }}</li>#}
+{#                                {% endfor %}#}
+{#                            </ul>#}
+{#                        {% endfor %}#}
+                {% else %}
+                    <p>Aucune commande passée aujourd'hui</p>
+                {% endif %}
+            </div>
+        </div>
+
+
     </div>
+
+
+
 {% endblock %}
 
 {% block title %}

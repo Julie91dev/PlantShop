@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Commande;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -31,32 +32,41 @@ class CommandeRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getResult();
     }
-    // /**
-    //  * @return Commande[] Returns an array of Commande objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Commande
+    /**
+     * @return int|mixed|string
+     * @throws NonUniqueResultException
+     */
+   public function countAllCommandes()
+   {
+       $qb =$this->createQueryBuilder('u')
+           ->select('COUNT(u.id) as value' );
+       return $qb->getQuery()->getOneOrNullResult();
+   }
+
+    /**
+     * @throws NonUniqueResultException
+     */
+    public function countCommandesToday()
     {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $today = date('Y-m-d h:i:s', strtotime("-1 days"));
+        $qb =$this->createQueryBuilder('c')
+            ->select('COUNT(c.id) as value' )
+            ->where('c.date >= :date')
+            ->setParameter('date', $today);
+        return $qb->getQuery()->getOneOrNullResult();
     }
-    */
+
+    public function getCommandesToday()
+    {
+        $date = date('Y-m-d h:i:s', strtotime("-7 days"));
+        $today = new \DateTime('now');
+        $qb =$this->createQueryBuilder('c')
+            ->select('c')
+            ->where('c.date BETWEEN :date AND :now')
+            ->setParameter('date', $date)
+            ->setParameter('now', $today);
+
+        return $qb->getQuery()->getResult();
+    }
 }

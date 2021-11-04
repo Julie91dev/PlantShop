@@ -6,6 +6,7 @@ use App\Entity\Commande;
 use App\Repository\AdresseRepository;
 use App\Repository\ArticleRepository;
 use App\Repository\CommandeRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Security;
@@ -19,13 +20,15 @@ class CommandeService
     protected $commandeRepository;
     protected $entityManager;
     protected $security;
+    protected $userRepository;
 
     public function __construct(SessionInterface $session,
                                 AdresseRepository $adresseRepository,
                                 ArticleRepository $articleRepository,
                                 CommandeRepository $commandeRepository,
                                 EntityManagerInterface $entityManager,
-                                Security $security)
+                                Security $security,
+                                UserRepository $userRepository)
     {
         $this->session = $session;
         $this->adresseRepository = $adresseRepository;
@@ -33,6 +36,7 @@ class CommandeService
         $this->commandeRepository = $commandeRepository;
         $this->entityManager = $entityManager;
         $this->security = $security;
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -134,8 +138,11 @@ class CommandeService
             $commande = $this->commandeRepository->find($this->session->get('commande'));
         }
 
+        $emailUser = $this->security->getUser()->getUserIdentifier();
+        $user = $this->userRepository->findOneBy(['email' => $emailUser]);
+
         $commande->setDate(new \DateTime());
-        $commande->setClient($this->security->getUser());
+        $commande->setClient($user);
         $commande->setValider(0);
         $commande->setReference(0);
         $commande->setCommande($this->facture());
